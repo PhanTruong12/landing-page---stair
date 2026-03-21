@@ -1,4 +1,5 @@
 import { CONTACT } from "../../constants/contact";
+import { trackCtaClick } from "../../lib/tracking/initTracking";
 
 export function MobileCtaBar() {
   return (
@@ -8,6 +9,7 @@ export function MobileCtaBar() {
           href="#contact"
           onClick={(e) => {
             e.preventDefault();
+            trackCtaClick("sticky_mobile_price");
             document.getElementById("contact")?.scrollIntoView({
               behavior: "smooth",
               block: "start",

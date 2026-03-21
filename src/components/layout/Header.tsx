@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Button } from "../ui/Button";
 import { CONTACT } from "../../constants/contact";
 import { motion } from "framer-motion";
+import { trackCtaClick } from "../../lib/tracking/initTracking";
 
 type NavItem = { id: string; label: string };
 
@@ -74,6 +75,7 @@ export function Header() {
             onClick={(e) => {
               // Prevent anchor jump; smooth scroll handled by handler.
               e.preventDefault();
+              trackCtaClick("header_price");
               scrollToSection("contact");
             }}
           >
@@ -94,6 +96,7 @@ export function Header() {
             className="px-4 py-2"
             onClick={(e) => {
               e.preventDefault();
+              trackCtaClick("mobile_price");
               scrollToSection("contact");
             }}
           >

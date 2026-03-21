@@ -3,6 +3,7 @@ import { CONTACT } from "../../constants/contact";
 import { HERO_IMAGE_URL } from "../../constants/staircases";
 import { Button } from "../ui/Button";
 import { SectionHeading } from "../ui/SectionHeading";
+import { trackCtaClick } from "../../lib/tracking/initTracking";
 
 function scrollToContact() {
   const el = document.getElementById("contact");
@@ -61,6 +62,7 @@ export function Hero() {
                 href="#contact"
                 onClick={(e) => {
                   e.preventDefault();
+                  trackCtaClick("hero_price");
                   scrollToContact();
                 }}
               >

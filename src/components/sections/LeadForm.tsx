@@ -1,23 +1,44 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { CONTACT } from "../../constants/contact";
 import { Button } from "../ui/Button";
+import { trackLead } from "../../lib/tracking/initTracking";
 
 export function LeadForm() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [serviceNeed, setServiceNeed] = useState("");
+  // Default to the most common intent to reduce friction.
+  const [serviceNeed, setServiceNeed] = useState("stair-full-build");
   const [submitting, setSubmitting] = useState(false);
 
   const serviceOptions = useMemo(
     () => [
-      { value: "granite-stair", label: "Thi công cầu thang đá granite" },
-      { value: "granite-wall-clad", label: "Ốp lát đá cầu thang" },
-      { value: "repair", label: "Bảo trì / nâng cấp cầu thang" },
-      { value: "design", label: "Tư vấn thiết kế / phối màu" },
+      {
+        value: "stair-full-build",
+        label: "Thi công cầu thang đá granite (phần bậc + chi tiết)",
+      },
+      {
+        value: "stair-cladding",
+        label: "Ốp lát đá cầu thang (nếu khung đã có sẵn)",
+      },
+      {
+        value: "stair-upgrade",
+        label: "Nâng cấp / thay mặt bậc đá",
+      },
     ],
     [],
   );
+
+  // Fix: if user comes back via browser back-forward cache (bfcache),
+  // restore UI state so the submit button does not get stuck.
+  useEffect(() => {
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) setSubmitting(false);
+    };
+
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, []);
 
   return (
     <section
@@ -87,9 +108,17 @@ export function LeadForm() {
             <form
               onSubmit={(e) => {
                 e.preventDefault(); // Prevent default as requested
+                  if (submitting) return;
                 setSubmitting(true);
-                // Redirect to Zalo link as requested
-                window.location.href = CONTACT.zaloUrl;
+                  trackLead({
+                    serviceNeed: serviceNeed || undefined,
+                    source: "zalo_redirect",
+                  });
+                  // Ensure tracking fires before redirect.
+                  window.setTimeout(() => {
+                    setSubmitting(false);
+                    window.location.href = CONTACT.zaloUrl;
+                  }, 450);
               }}
             >
               <div className="grid grid-cols-1 gap-4">
@@ -137,7 +166,7 @@ export function LeadForm() {
                     htmlFor="serviceNeed"
                   className="text-sm font-semibold text-text-main"
                   >
-                    Bạn cần dịch vụ gì?
+                    Hạng mục thi công cầu thang đá granite
                   </label>
                   <select
                     id="serviceNeed"
