@@ -32,31 +32,27 @@ export function Header() {
       initial={{ y: -8, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: DURATION, ease: EASE_OUT }}
-      className="sticky top-0 z-50 border-b border-charcoal/10 bg-marble/85 px-3 py-3 backdrop-blur-xl sm:px-5"
+      className="sticky top-0 z-50 border-b border-charcoal/8 bg-marble/80 px-4 py-3 backdrop-blur-md sm:px-6"
     >
       <div
-        className={`mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-card border px-3 py-2.5 shadow-soft transition-[background-color,box-shadow,border-color] duration-300 ease-out sm:gap-4 sm:px-5 sm:py-3 ${
-          scrolled
-            ? "border-charcoal/15 bg-marble-card/95 shadow-[0_8px_24px_-14px_rgba(44,44,44,0.2)]"
-            : "border-charcoal/10 bg-marble-card/78"
+        className={`mx-auto flex max-w-7xl items-center justify-between gap-4 transition-all duration-300 ease-out ${
+          scrolled ? "sm:gap-6" : "sm:gap-8"
         }`}
       >
         <a
           href="#top"
-          className="group inline-flex min-w-0 items-center gap-2.5 sm:gap-3"
+          className="group inline-flex min-w-0 items-center gap-3"
           onClick={(e) => {
             e.preventDefault();
             scrollToSection("top", reduce ?? false);
           }}
           aria-label="TND Granite - quay về đầu trang"
         >
-          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-card border border-gold/15 bg-gradient-to-br from-marble-card to-marble-muted shadow-soft ring-1 ring-charcoal/[0.06] transition group-hover:border-gold/25 sm:h-10 sm:w-10">
-            <span className="text-[14px] font-black tracking-tight text-gold sm:text-[15px]">
-              TND
-            </span>
+          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gold text-sm font-bold tracking-tight text-marble-card shadow-soft ring-1 ring-gold/20 transition group-hover:shadow-md sm:h-11 sm:w-11">
+            TND
           </span>
           <span className="min-w-0 leading-tight">
-            <span className="block truncate text-sm font-bold tracking-tight text-charcoal">
+            <span className="block truncate text-sm font-semibold tracking-tight text-charcoal sm:text-base">
               TND Granite
             </span>
             <span className="hidden text-xs text-text-secondary sm:block">
@@ -65,12 +61,12 @@ export function Header() {
           </span>
         </a>
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Điều hướng">
+        <nav className="hidden items-center gap-1 lg:flex" aria-label="Điều hướng">
           {navItems.map((item) => (
             <a
               key={item.id}
               href={`#${item.id}`}
-              className="rounded-card px-3.5 py-2 text-sm font-medium text-text-secondary transition-colors duration-200 ease-out hover:bg-charcoal/[0.06] hover:text-charcoal"
+              className="rounded-md px-4 py-2 text-sm font-medium text-text-secondary transition-all duration-200 ease-out hover:bg-charcoal/5 hover:text-charcoal"
               onClick={(e) => {
                 e.preventDefault();
                 scrollToSection(item.id, reduce ?? false);
@@ -81,10 +77,11 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden lg:flex">
+        <div className="hidden lg:flex gap-3">
           <Button
             href="#contact"
-            className="px-6 py-2.5"
+            className="px-6 py-2.5 rounded-lg"
+            tone="orange"
             onClick={(e) => {
               e.preventDefault();
               trackCtaClick("header_price");
@@ -95,10 +92,11 @@ export function Header() {
           </Button>
         </div>
 
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
           <Button
             href="#contact"
-            className="px-4 py-2"
+            className="px-4 py-2 rounded-md text-sm"
+            tone="orange"
             onClick={(e) => {
               e.preventDefault();
               trackCtaClick("mobile_price");
@@ -107,7 +105,7 @@ export function Header() {
           >
             Báo giá
           </Button>
-          <Button href={CONTACT.zaloUrl} className="px-4 py-2" tone="emerald">
+          <Button href={CONTACT.zaloUrl} className="px-4 py-2 rounded-md text-sm" tone="emerald">
             Zalo
           </Button>
         </div>

@@ -48,7 +48,7 @@ export function App() {
   return (
     <div className="relative overflow-hidden bg-page pb-24 md:pb-0">
       <div
-        className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(85%_55%_at_50%_0%,rgba(37,99,235,0.12),transparent_58%),linear-gradient(180deg,#eff6ff_0%,#eef2ff_42%,#e2e8f0_100%)]"
+        className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(85%_55%_at_50%_0%,rgba(212,165,116,0.08),transparent_60%),linear-gradient(180deg,#FAFAF8_0%,#F5F3F0_45%,#F0EDE8_100%)]"
         aria-hidden
       />
 
@@ -59,8 +59,8 @@ export function App() {
         </FadeUp>
 
         {/* 2) LEAD FORM (trên fold) */}
-        <div className="relative border-t border-charcoal/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.26)_0%,rgba(255,255,255,0)_100%)]">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+        <div className="relative border-t border-charcoal/6 bg-[linear-gradient(180deg,rgba(255,255,255,0.28)_0%,rgba(255,255,255,0.05)_100%)]">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-24">
             <FadeUp reduceMotion={reduce ?? false} delayMs={60}>
               <div className="mx-auto max-w-2xl">
                 <LeadForm variant="sidebar" />
@@ -70,8 +70,8 @@ export function App() {
         </div>
 
         {/* 3) STAIRCASE SHOWCASE */}
-        <div className="relative border-t border-charcoal/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.18)_0%,rgba(255,255,255,0)_100%)]">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+        <div className="relative border-t border-charcoal/6 bg-[linear-gradient(180deg,rgba(255,255,255,0.15)_0%,rgba(255,255,255,0.02)_100%)]">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-24">
             <FadeUp reduceMotion={reduce ?? false} delayMs={90}>
               <StaircaseShowcase embedded />
             </FadeUp>
@@ -79,8 +79,8 @@ export function App() {
         </div>
 
         {/* 4) STAIR PRICE CALCULATOR (interactive) */}
-        <div className="relative border-t border-charcoal/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.10)_0%,rgba(255,255,255,0)_100%)]">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+        <div className="relative border-t border-charcoal/6 bg-[linear-gradient(180deg,rgba(255,255,255,0.08)_0%,rgba(255,255,255,0)_100%)]">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-24">
             <FadeUp reduceMotion={reduce ?? false} delayMs={120}>
               <StairPriceCalculator embedded />
             </FadeUp>
@@ -88,8 +88,8 @@ export function App() {
         </div>
 
         {/* 5) PROCESS */}
-        <div className="relative border-t border-charcoal/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0)_100%)]">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+        <div className="relative border-t border-charcoal/6 bg-[linear-gradient(180deg,rgba(255,255,255,0.20)_0%,rgba(255,255,255,0)_100%)]">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-24">
             <FadeUp reduceMotion={reduce ?? false} delayMs={150}>
               <Process embedded />
             </FadeUp>
@@ -97,7 +97,7 @@ export function App() {
         </div>
 
         {/* 6) CTA lặp lại cuối trang */}
-        <div className="relative border-t border-charcoal/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.30)_0%,rgba(255,255,255,0)_100%)]">
+        <div className="relative border-t border-charcoal/6 bg-[linear-gradient(180deg,rgba(255,255,255,0.32)_0%,rgba(255,255,255,0)_100%)]">
           <FadeUp reduceMotion={reduce ?? false} delayMs={180}>
             <section
               id="final-cta"
@@ -105,23 +105,23 @@ export function App() {
               aria-label="Nhận báo giá miễn phí"
             >
               <SectionBackdrop variant="lead" />
-              <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+              <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16 md:py-28">
                 <div className="text-center">
-                  <p className="font-display text-[11px] font-semibold uppercase tracking-[0.22em] text-gold-deep">
-                    Ưu đãi theo yêu cầu
+                  <p className="font-display text-[10px] font-bold uppercase tracking-[0.32em] text-gold">
+                    Liên hệ ngay
                   </p>
-                  <h2 className="font-display mt-2 text-heading font-bold text-balance text-charcoal">
+                  <h2 className="font-display mt-4 text-heading font-bold text-balance text-charcoal">
                     Nhận báo giá miễn phí
                   </h2>
-                  <p className="mt-3 text-base leading-[1.7] text-text-secondary">
-                    Để lại thông tin, chúng tôi sẽ phản hồi qua Zalo trong 5 phút.
+                  <p className="mt-4 text-lg leading-[1.8] text-text-secondary">
+                    Để lại thông tin chi tiết, chúng tôi sẽ phản hồi qua Zalo trong vòng 5 phút.
                   </p>
 
-                  <div className="mt-8 flex items-center justify-center">
+                  <div className="mt-10 flex items-center justify-center">
                     <Button
                       href="#contact"
                       tone="orange"
-                      className="w-full max-w-xs rounded-card px-8 py-3.5"
+                      className="w-full max-w-xs rounded-lg px-8 py-3.5 font-medium"
                       onClick={(e) => {
                         e.preventDefault();
                         scrollToId("contact", reduce ?? false);

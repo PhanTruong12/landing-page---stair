@@ -45,39 +45,39 @@ export function Process({ embedded = false }: ProcessProps) {
             : "max-w-6xl px-4 sm:px-6"
         }`}
       >
-        <div className="max-w-2xl">
-          <p className="font-display text-[11px] font-semibold uppercase tracking-[0.22em] text-gold-deep">
+        <div className="max-w-3xl">
+          <p className="font-display text-[10px] font-bold uppercase tracking-[0.32em] text-gold">
             Quy trình
           </p>
-          <div className="mt-2 h-px w-16 bg-gold/10" aria-hidden />
+          <div className="mt-3 h-1 w-12 bg-gold/40 rounded-full" aria-hidden />
           <h2
             id="process-heading"
-            className="font-display mt-1 text-heading font-bold text-balance text-charcoal"
+            className="font-display mt-5 text-heading font-bold text-balance text-charcoal"
           >
-            Quy trình thi công đá cầu thang
+            Quy trình thi công chuẩn
           </h2>
-          <p className="mt-4 text-lg leading-[1.6] text-text-secondary">
-            Bốn bước chuẩn — giảm sai lệch khi thi công đá nung kết ốp cầu thang.
+          <p className="mt-4 text-lg leading-[1.7] text-text-secondary">
+            Bốn bước chuẩn mực — giảm sai lệch và đảm bảo chất lượng thi công đá nung kết.
           </p>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-7">
+        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           {steps.map((s, idx) => (
             <motion.div
               key={s.title}
-              initial={reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+              initial={reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.25 }}
               transition={{ duration: reduce ? 0 : DURATION, ease: EASE_OUT }}
-              className="relative rounded-card border border-charcoal/12 bg-marble-card/40 backdrop-blur-xl p-6 shadow-soft ring-1 ring-charcoal/[0.04] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-[1px] hover:border-charcoal/20 hover:shadow-soft"
+              className="relative rounded-xl border border-charcoal/10 bg-white/60 backdrop-blur-lg p-7 shadow-soft ring-1 ring-charcoal/[0.03] transition-all duration-300 ease-out will-change-transform hover:border-gold/30 hover:shadow-md hover:bg-white/70"
             >
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-charcoal text-sm font-bold text-marble-card shadow-soft">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-gold to-gold/80 text-base font-bold text-white shadow-lg">
                 {idx + 1}
               </div>
-              <h3 className="mt-4 text-base font-semibold text-charcoal">
+              <h3 className="mt-5 text-lg font-semibold text-charcoal">
                 {s.title}
               </h3>
-              <p className="mt-2 text-sm leading-[1.6] text-text-secondary">
+              <p className="mt-3 text-sm leading-[1.7] text-text-secondary">
                 {s.desc}
               </p>
             </motion.div>

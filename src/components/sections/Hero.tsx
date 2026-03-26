@@ -78,7 +78,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative isolate min-h-[min(90vh,900px)] overflow-hidden bg-marble"
+      className="relative isolate min-h-[min(95vh,1000px)] overflow-hidden bg-marble"
       aria-labelledby="hero-heading"
     >
       {/* Ảnh full-bleed — cinematic */}
@@ -94,37 +94,60 @@ export function Hero() {
           className="h-full w-full object-cover object-center"
         />
         <div
-          className="absolute inset-0 bg-gradient-to-t from-marble/85 via-marble-muted/35 to-marble/70"
+          className="absolute inset-0 bg-gradient-to-t from-marble/90 via-marble-muted/40 to-marble/65"
           aria-hidden
         />
         <div
-          className="absolute inset-0 bg-gradient-to-r from-marble/70 via-transparent to-marble/25"
+          className="absolute inset-0 bg-gradient-to-r from-marble/75 via-transparent to-marble/30"
           aria-hidden
         />
         <div
-          className="absolute inset-0 bg-grid-subtle opacity-[0.4]"
+          className="absolute inset-0 bg-grid-subtle opacity-[0.25]"
           aria-hidden
         />
         <div
-          className="absolute inset-0 bg-[radial-gradient(60%_60%_at_20%_10%,rgba(37,99,235,0.20)_0%,transparent_55%)] opacity-100"
+          className="absolute inset-0 bg-[radial-gradient(70%_70%_at_30%_15%,rgba(212,165,116,0.15)_0%,transparent_55%)] opacity-100"
           aria-hidden
         />
       </div>
 
       {/* Nội dung — đáy khung, chữ sáng */}
-      <div className="relative z-[1] mx-auto flex min-h-[min(90vh,900px)] max-w-7xl flex-col justify-end px-4 pb-12 pt-24 sm:px-6 sm:pb-14 sm:pt-28 lg:px-8 lg:pb-16 lg:pt-32">
+      <div className="relative z-[1] mx-auto flex min-h-[min(95vh,1000px)] max-w-7xl flex-col justify-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 sm:pt-32 lg:px-8 lg:pb-24 lg:pt-40">
         <motion.div
           variants={gridContainer}
           initial="hidden"
           animate="visible"
-          className="max-w-4xl rounded-card border border-charcoal/15 bg-marble-card/78 p-6 shadow-elevated ring-1 ring-charcoal/[0.05] backdrop-blur-xl sm:p-8 lg:p-10"
+          className="max-w-3xl rounded-2xl border border-charcoal/10 bg-marble-card/82 p-7 shadow-elevated ring-1 ring-charcoal/[0.05] backdrop-blur-xl sm:p-9 lg:p-12"
         >
           <motion.div variants={innerStagger} initial="hidden" animate="visible">
             <motion.p
               variants={itemFade}
-              className="font-display text-[11px] font-semibold uppercase tracking-[0.28em] text-gold-deep"
+              className="font-display text-[10px] font-bold uppercase tracking-[0.32em] text-gold"
             >
               Đá nung kết · Đà Nẵng
+            </motion.p>
+            <div className="mt-3 h-1 w-12 bg-gold/40 rounded-full" aria-hidden />
+            <motion.div variants={itemFade}>
+              <h1
+                id="hero-heading"
+                className="font-display mt-5 text-display font-bold text-balance text-charcoal leading-[1.05]"
+              >
+                Thi Công Cầu Thang Đá Nung Kết Cao Cấp
+              </h1>
+            </motion.div>
+            <motion.p
+              variants={itemFade}
+              className="mt-6 max-w-2xl text-lg leading-[1.7] text-charcoal sm:text-xl"
+            >
+              Thi công chuyên nghiệp{" "}
+              <span className="font-semibold text-charcoal">đá nung kết ốp cầu thang</span>{" "}
+              với quy trình chuẩn, đo đạc tận nơi và bảo hành toàn diện.
+            </motion.p>
+            <motion.p
+              variants={itemFade}
+              className="mt-4 max-w-2xl text-base leading-[1.7] text-text-secondary"
+            >
+              Báo giá minh bạch, tư vấn nhanh — phản hồi qua Zalo trong 5 phút.
             </motion.p>
             <div className="mt-4 h-px w-16 bg-gold/15" aria-hidden />
             <motion.div variants={itemFade}>
@@ -153,10 +176,10 @@ export function Hero() {
 
             <motion.div
               variants={itemFade}
-              className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center"
+              className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center"
             >
               <Button
-                className="w-full min-w-[180px] rounded-card px-8 py-3.5 sm:w-auto"
+                className="w-full min-w-[200px] rounded-lg px-8 py-3.5 sm:w-auto font-medium"
                 href="#contact"
                 tone="orange"
                 onClick={(e) => {
@@ -168,12 +191,12 @@ export function Hero() {
                 Nhận báo giá miễn phí
               </Button>
               <Button
-                className="w-full min-w-[180px] rounded-card px-8 py-3.5 sm:w-auto"
+                className="w-full min-w-[200px] rounded-lg px-8 py-3.5 sm:w-auto font-medium"
                 href={CONTACT.zaloUrl}
                 tone="emerald"
                 variant="outline"
               >
-                Chat Zalo
+                Chat Zalo ngay
               </Button>
             </motion.div>
 
@@ -181,12 +204,12 @@ export function Hero() {
               variants={trustList}
               initial="hidden"
               animate="visible"
-              className="mt-10 flex flex-wrap gap-2"
+              className="mt-9 flex flex-wrap gap-2"
             >
               {TRUST_ITEMS.map((label) => (
                 <motion.li key={label} variants={trustItem}>
-                  <span className="inline-flex items-center rounded-full border border-charcoal/15 bg-marble-card/50 px-3 py-1.5 text-xs font-medium leading-snug text-charcoal-soft backdrop-blur-sm">
-                    {label}
+                  <span className="inline-flex items-center rounded-full border border-gold/25 bg-gold/8 px-4 py-2 text-xs font-semibold leading-snug text-charcoal backdrop-blur-sm">
+                    ✓ {label}
                   </span>
                 </motion.li>
               ))}
