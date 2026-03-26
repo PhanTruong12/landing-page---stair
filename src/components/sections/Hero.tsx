@@ -78,10 +78,10 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative isolate min-h-[min(90vh,900px)] overflow-hidden bg-marble"
+      className="relative isolate min-h-[min(90vh,900px)] overflow-hidden bg-white"
       aria-labelledby="hero-heading"
     >
-      {/* Ảnh full-bleed — cinematic */}
+      {/* Background image with optimized overlay */}
       <div className="absolute inset-0">
         <img
           src={HERO_IMAGE_URL}
@@ -94,30 +94,26 @@ export function Hero() {
           className="h-full w-full object-cover object-center"
         />
         <div
-          className="absolute inset-0 bg-gradient-to-t from-marble/85 via-marble-muted/35 to-marble/70"
+          className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/40 to-white/60"
           aria-hidden
         />
         <div
-          className="absolute inset-0 bg-gradient-to-r from-marble/70 via-transparent to-marble/25"
+          className="absolute inset-0 bg-gradient-to-r from-white/70 via-transparent to-white/20"
           aria-hidden
         />
         <div
-          className="absolute inset-0 bg-grid-subtle opacity-[0.4]"
-          aria-hidden
-        />
-        <div
-          className="absolute inset-0 bg-[radial-gradient(60%_60%_at_20%_10%,rgba(37,99,235,0.20)_0%,transparent_55%)] opacity-100"
+          className="absolute inset-0 bg-grid-subtle opacity-20"
           aria-hidden
         />
       </div>
 
-      {/* Nội dung — đáy khung, chữ sáng */}
+      {/* Content section */}
       <div className="relative z-[1] mx-auto flex min-h-[min(90vh,900px)] max-w-7xl flex-col justify-end px-4 pb-12 pt-24 sm:px-6 sm:pb-14 sm:pt-28 lg:px-8 lg:pb-16 lg:pt-32">
         <motion.div
           variants={gridContainer}
           initial="hidden"
           animate="visible"
-          className="max-w-4xl rounded-card border border-charcoal/15 bg-marble-card/78 p-6 shadow-elevated ring-1 ring-charcoal/[0.05] backdrop-blur-xl sm:p-8 lg:p-10"
+          className="max-w-4xl rounded-lg border border-gray-200 bg-white/95 p-6 shadow-lg sm:p-8 lg:p-10"
         >
           <motion.div variants={innerStagger} initial="hidden" animate="visible">
             <motion.p

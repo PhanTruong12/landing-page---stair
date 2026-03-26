@@ -14,6 +14,47 @@
   }
 
   body {
+    @apply bg-page font-sans text-base leading-relaxed text-text-main antialiased;
+  }
+
+  ::selection {
+    @apply bg-gold/10;
+    color: theme("colors.text.main");
+  }
+
+  section {
+    scroll-margin-top: 80px;
+  }
+}
+
+@layer utilities {
+  /* Clean grid background for hero */
+  .bg-grid-subtle {
+    background-image: radial-gradient(
+      rgba(30, 64, 175, 0.05) 1px,
+      transparent 1px
+    );
+    background-size: 24px 24px;
+  }
+
+  /* Clean card surface */
+  .card-surface {
+    @apply rounded-lg border border-gray-200 bg-white shadow-sm;
+  }
+
+  /* Elevated card with subtle shadow */
+  .card-elevated {
+    @apply rounded-lg border border-gray-100 bg-white shadow-md;
+  }
+}
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
     @apply bg-page font-sans text-[17px] leading-[1.6] text-text-main antialiased;
   }
 

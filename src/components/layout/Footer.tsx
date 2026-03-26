@@ -2,32 +2,31 @@ import { CONTACT } from "../../constants/contact";
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-charcoal/10 bg-charcoal text-marble-muted">
+    <footer className="relative border-t border-gray-200 bg-gray-900 text-gray-300">
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent"
         aria-hidden
       />
       <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:py-16">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr]">
           <div>
-            <div className="text-sm font-bold tracking-tight text-marble-card">
+            <div className="text-sm font-bold tracking-tight text-white">
               TND Granite
             </div>
-            <p className="mt-3 max-w-sm text-sm leading-[1.6] text-marble-muted/90">
-              Thi công cầu thang đá nung kết cao cấp — mẫu cầu thang đá đẹp,
-              báo giá thi công đá cầu thang minh bạch tại Đà Nẵng.
+            <p className="mt-3 max-w-sm text-sm leading-relaxed text-gray-400">
+              Thi công cầu thang đá nung kết cao cấp — mẫu cầu thang đá đẹp, báo giá thi công đá cầu thang minh bạch tại Đà Nẵng.
             </p>
-            <p className="mt-3 text-sm text-marble-muted/80">
+            <p className="mt-3 text-sm text-gray-500">
               {CONTACT.addressLine}
             </p>
           </div>
           <div>
-            <div className="text-sm font-bold tracking-tight text-marble-card">
+            <div className="text-sm font-bold tracking-tight text-white">
               Liên hệ
             </div>
             <a
               href={CONTACT.phoneHref}
-              className="mt-3 block text-sm font-semibold text-marble-card transition hover:text-gold"
+              className="mt-3 block text-sm font-semibold text-white transition hover:text-gold"
             >
               {CONTACT.phoneDisplay}
             </a>

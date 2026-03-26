@@ -48,10 +48,10 @@ function ZaloIcon({ className }: { className?: string }) {
 }
 
 const inputBase =
-  "w-full h-12 rounded-card border border-charcoal/10 bg-marble-card/95 px-4 text-sm text-text-main outline-none transition-[border-color,box-shadow] duration-200 ease-out placeholder:text-text-secondary/70 focus:border-gold/60 focus:ring-2 focus:ring-gold/20 focus:shadow-[0_0_0_4px_rgba(37,99,235,0.16)]";
+  "w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-text-main outline-none transition-[border-color,box-shadow] duration-200 ease-out placeholder:text-text-secondary focus:border-gold focus:ring-2 focus:ring-gold/20";
 
 const textareaBase =
-  "w-full resize-y rounded-card border border-charcoal/10 bg-marble-card/95 px-4 py-3 text-sm text-text-main outline-none transition-[border-color,box-shadow] duration-200 ease-out placeholder:text-text-secondary/70 focus:border-gold/60 focus:ring-2 focus:ring-gold/20 focus:shadow-[0_0_0_4px_rgba(37,99,235,0.16)]";
+  "w-full resize-y rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-text-main outline-none transition-[border-color,box-shadow] duration-200 ease-out placeholder:text-text-secondary focus:border-gold focus:ring-2 focus:ring-gold/20";
 
 export type LeadFormProps = {
   /** Sidebar: nền tương phản, gọn — dùng trong layout 2 cột */
@@ -76,8 +76,8 @@ export function LeadForm({ variant = "page" }: LeadFormProps) {
   }, []);
 
   const cardClass = isSidebar
-    ? "rounded-card border border-charcoal/10 bg-marble-card/95 p-6 shadow-soft ring-1 ring-charcoal/[0.02] sm:p-7"
-    : "rounded-card border border-charcoal/10 bg-marble-card/95 p-6 shadow-elevated ring-1 ring-charcoal/[0.02] sm:p-8";
+    ? "rounded-lg border border-gray-200 bg-white p-6 shadow-md sm:p-7"
+    : "rounded-lg border border-gray-200 bg-white p-6 shadow-lg sm:p-8";
 
   const formInner = (
     <>
@@ -201,18 +201,16 @@ export function LeadForm({ variant = "page" }: LeadFormProps) {
 
           <div className="pt-2">
             <Button
-              className="w-full justify-center rounded-card px-6 py-4 text-base hover:scale-[1.02] bg-[linear-gradient(180deg,rgba(96,165,250,1)_0%,rgba(29,78,216,1)_100%)] hover:bg-[linear-gradient(180deg,rgba(96,165,250,0.95)_0%,rgba(30,64,175,1)_100%)]"
+              className="w-full justify-center rounded-lg px-6 py-3.5 text-base"
+              tone="orange"
               type="submit"
             >
               {submitting ? (
                 "Đang chuyển..."
               ) : (
                 <>
-                  <span>Nhận báo giá trong 5 phút →</span>
-                  <span className="inline-flex items-center gap-2">
-                    <ZaloIcon className="h-5 w-5" />
-                    Zalo
-                  </span>
+                  <span>Nhận báo giá trong 5 phút</span>
+                  <ZaloIcon className="h-5 w-5" />
                 </>
               )}
             </Button>

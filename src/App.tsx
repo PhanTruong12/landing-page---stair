@@ -46,9 +46,9 @@ function FadeUp({
 export function App() {
   const reduce = useReducedMotion();
   return (
-    <div className="relative overflow-hidden bg-page pb-24 md:pb-0">
+    <div className="relative overflow-hidden bg-white pb-24 md:pb-0">
       <div
-        className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(85%_55%_at_50%_0%,rgba(37,99,235,0.12),transparent_58%),linear-gradient(180deg,#eff6ff_0%,#eef2ff_42%,#e2e8f0_100%)]"
+        className="pointer-events-none fixed inset-0 -z-10 bg-white"
         aria-hidden
       />
 
@@ -59,7 +59,7 @@ export function App() {
         </FadeUp>
 
         {/* 2) LEAD FORM (trên fold) */}
-        <div className="relative border-t border-charcoal/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.26)_0%,rgba(255,255,255,0)_100%)]">
+        <div className="relative border-t border-gray-200 bg-white">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-20">
             <FadeUp reduceMotion={reduce ?? false} delayMs={60}>
               <div className="mx-auto max-w-2xl">
@@ -70,7 +70,7 @@ export function App() {
         </div>
 
         {/* 3) STAIRCASE SHOWCASE */}
-        <div className="relative border-t border-charcoal/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.18)_0%,rgba(255,255,255,0)_100%)]">
+        <div className="relative border-t border-gray-200 bg-gradient-to-b from-gray-50 to-white">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-20">
             <FadeUp reduceMotion={reduce ?? false} delayMs={90}>
               <StaircaseShowcase embedded />
@@ -79,7 +79,7 @@ export function App() {
         </div>
 
         {/* 4) STAIR PRICE CALCULATOR (interactive) */}
-        <div className="relative border-t border-charcoal/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.10)_0%,rgba(255,255,255,0)_100%)]">
+        <div className="relative border-t border-gray-200 bg-white">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-20">
             <FadeUp reduceMotion={reduce ?? false} delayMs={120}>
               <StairPriceCalculator embedded />
@@ -88,7 +88,7 @@ export function App() {
         </div>
 
         {/* 5) PROCESS */}
-        <div className="relative border-t border-charcoal/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0)_100%)]">
+        <div className="relative border-t border-gray-200 bg-gradient-to-b from-emerald-50/20 to-white">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-20">
             <FadeUp reduceMotion={reduce ?? false} delayMs={150}>
               <Process embedded />
@@ -97,7 +97,7 @@ export function App() {
         </div>
 
         {/* 6) CTA lặp lại cuối trang */}
-        <div className="relative border-t border-charcoal/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.30)_0%,rgba(255,255,255,0)_100%)]">
+        <div className="relative border-t border-gray-200 bg-white">
           <FadeUp reduceMotion={reduce ?? false} delayMs={180}>
             <section
               id="final-cta"

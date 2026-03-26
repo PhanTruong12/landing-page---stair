@@ -35,37 +35,36 @@ export default {
       },
       colors: {
         gold: {
-          DEFAULT: "#2563EB",
-          light: "#60A5FA",
-          deep: "#1D4ED8",
+          DEFAULT: "#1E40AF",
+          light: "#3B82F6",
+          deep: "#1E3A8A",
         },
         marble: {
-          DEFAULT: "#F8FAFC",
-          muted: "#EEF2FF",
+          DEFAULT: "#FFFFFF",
+          muted: "#F9FAFB",
           card: "#FFFFFF",
         },
         charcoal: {
           DEFAULT: "#0F172A",
-          soft: "#334155",
+          soft: "#4B5563",
         },
-        /** Nền tối — section contrast */
         ink: {
-          DEFAULT: "#0B1220",
-          soft: "#111B2E",
-          muted: "#1B243B",
+          DEFAULT: "#0F172A",
+          soft: "#1F2937",
+          muted: "#374151",
         },
         page: {
-          DEFAULT: "#EEF2FF",
+          DEFAULT: "#FFFFFF",
         },
         text: {
-          main: "#0B1220",
-          secondary: "#475569",
+          main: "#111827",
+          secondary: "#6B7280",
         },
         accent: {
-          bronze: "#1D4ED8",
+          bronze: "#1E40AF",
           bronzeDark: "#1E3A8A",
-          emerald: "#06B6D4",
-          orange: "#1D4ED8",
+          emerald: "#10B981",
+          orange: "#1E40AF",
         },
       },
       boxShadow: {
