@@ -5,57 +5,64 @@ import { Button } from "../ui/Button";
 export function FinalCta() {
   return (
     <section
-      className="bg-page py-16 sm:py-20"
+      className="bg-white py-20 sm:py-28"
       aria-label="Kêu gọi hành động cuối"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <motion.div
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.6 }}
-          className="relative overflow-hidden rounded-4xl border border-slate-200 bg-gradient-to-b from-white to-page p-8 shadow-brand sm:p-10"
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.7 }}
+          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-600 via-orange-600 to-orange-700 p-8 sm:p-12 lg:p-16"
         >
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-r from-gold/15 via-transparent to-transparent"
-          />
-          <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -mr-48 -mt-48 pointer-events-none" />
+          <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/5 px-4 py-2 text-xs font-semibold tracking-wide text-gold-light">
-                TND GRANITE
+              <div className="inline-flex items-center gap-2 border border-white/30 bg-white/10 rounded-full px-4 py-2 text-xs font-semibold tracking-widest uppercase text-white mb-6">
+                <span className="w-1 h-1 rounded-full bg-white"></span>
+                Liên hệ ngay
               </div>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-text-main sm:text-4xl">
-                Sẵn sàng nâng cấp không gian với cầu thang đá granite cao cấp?
+              <h2 className="text-4xl sm:text-5xl font-bold text-white text-balance leading-tight mb-4">
+                Sẵn sàng nâng cấp không gian?
               </h2>
-              <p className="mt-3 text-text-secondary">
-                Liên hệ ngay để nhận tư vấn nhanh, chọn mẫu phù hợp và nhận
-                báo giá rõ ràng.
+              <p className="text-lg text-orange-100 mb-8">
+                Liên hệ để nhận tư vấn nhanh, chọn mẫu phù hợp và báo giá rõ ràng trong 24 giờ.
               </p>
 
-              <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
                 {[
                   { k: "Nhanh", v: "Phản hồi trong ngày" },
                   { k: "Chuẩn", v: "Đo - cắt - lắp đồng bộ" },
                   { k: "Bền", v: "Tuổi thọ 10–20 năm" },
-                ].map((s) => (
-                  <div
+                ].map((s, idx) => (
+                  <motion.div
                     key={s.k}
-                    className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: idx * 0.08 }}
+                    className="bg-white/10 border border-white/20 rounded-xl p-4 backdrop-blur-sm"
                   >
-                    <div className="text-sm font-black text-text-main">
+                    <div className="font-bold text-white text-lg">
                       {s.k}
                     </div>
-                    <div className="mt-1 text-xs text-text-secondary">{s.v}</div>
-                  </div>
+                    <div className="text-xs text-orange-100 mt-1">{s.v}</div>
+                  </motion.div>
                 ))}
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 sm:gap-4">
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="flex flex-col gap-4"
+            >
               <Button
                 href={CONTACT.phoneHref}
-                className="w-full justify-center px-8 py-4 text-base"
+                className="w-full justify-center px-8 py-4 text-base bg-white text-orange-600 hover:bg-orange-50"
               >
                 Gọi tư vấn
               </Button>
@@ -70,16 +77,13 @@ export function FinalCta() {
                 href="#contact"
                 onClick={(e) => {
                   e.preventDefault();
-                  document.getElementById("contact")?.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  });
+                  document.getElementById("contact")?.scrollIntoView({ behavior: "smooth", block: "start" });
                 }}
-                className="mt-2 inline-flex items-center justify-center rounded-full border border-gold/35 bg-white px-8 py-3 text-sm font-semibold text-gold transition hover:bg-gold/5"
+                className="w-full inline-flex items-center justify-center rounded-lg border-2 border-white bg-transparent px-8 py-3 text-base font-semibold text-white transition hover:bg-white/10"
               >
-                Nhận báo giá ngay
+                Nhận báo giá
               </a>
-            </div>
+            </motion.div>
           </div>
         </motion.div>
       </div>

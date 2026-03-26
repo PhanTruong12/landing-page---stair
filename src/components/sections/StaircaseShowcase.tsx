@@ -5,66 +5,60 @@ export function StaircaseShowcase() {
   return (
     <section
       id="gallery"
-      className="bg-white py-16 sm:py-20"
+      className="bg-white py-20 sm:py-28"
       aria-label="Bộ sưu tập"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/5 px-4 py-1.5 text-xs font-semibold tracking-wide text-gold-light">
-              STAIRCASE SHOWCASE
-            </div>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-text-main sm:text-4xl">
-              Thiết kế cầu thang đá granite sang trọng
-            </h2>
-            <p className="mt-3 text-text-secondary">
-              Lựa chọn mẫu theo phong cách công trình. Mỗi thiết kế đều hướng
-              đến độ khít, tính đồng bộ và độ bền vượt trội.
-            </p>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="mb-16">
+          <div className="inline-flex items-center gap-2 border border-orange-500/30 bg-orange-500/10 rounded-full px-4 py-2 text-xs font-semibold tracking-widest uppercase text-orange-600">
+            <span className="w-1 h-1 rounded-full bg-orange-500"></span>
+            Thiết kế
           </div>
-          <div className="text-sm text-text-secondary sm:max-w-xs">
-            Chạm vào từng mẫu để cảm nhận chất liệu.
-          </div>
+          <h2 className="mt-6 text-4xl sm:text-5xl font-bold text-zinc-950 text-balance leading-tight">
+            Bộ sưu tập thiết kế sang trọng
+          </h2>
+          <p className="mt-4 text-lg text-zinc-600 max-w-2xl">
+            Lựa chọn mẫu theo phong cách công trình. Mỗi thiết kế hướng đến độ khít, tính đồng bộ và độ bền vượt trội.
+          </p>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {STAIRCASE_DESIGNS.map((design) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {STAIRCASE_DESIGNS.map((design, idx) => (
             <motion.article
               key={design.title}
-              initial={{ opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.25 }}
-              transition={{ duration: 0.5 }}
-              whileHover={{ y: -4 }}
-              className="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition"
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, delay: idx * 0.08 }}
+              className="group overflow-hidden rounded-2xl bg-white border border-zinc-200 transition hover:shadow-lg hover:border-orange-500/30"
             >
-              <div className="relative">
+              <div className="relative overflow-hidden h-52">
                 <img
                   src={design.imageUrl}
                   alt={design.alt}
                   loading="lazy"
                   decoding="async"
-                  className="h-52 w-full object-cover transition duration-500 ease-out group-hover:scale-[1.05] group-hover:brightness-110"
+                  className="w-full h-full object-cover transition duration-500 group-hover:scale-110"
                 />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/80 via-white/30 to-transparent opacity-70 transition duration-500 group-hover:opacity-0" />
-                <div className="absolute left-4 top-4 rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-[11px] font-semibold text-text-main shadow-sm">
-                  Granite
-                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300" />
               </div>
 
-              <div className="p-5">
-                <h3 className="text-base font-semibold text-text-main">
+              <div className="p-6">
+                <div className="inline-flex items-center gap-2 mb-3 text-xs font-semibold text-orange-600 bg-orange-50 px-3 py-1 rounded-full">
+                  Granite
+                </div>
+                <h3 className="text-base font-bold text-zinc-950 mb-2">
                   {design.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+                <p className="text-sm leading-relaxed text-zinc-600 mb-4">
                   {design.benefit}
                 </p>
 
-                <div className="mt-5 flex items-center justify-between">
-                  <span className="text-xs font-semibold text-gold-light">
-                    Xem phối cảnh
+                <div className="flex items-center justify-between pt-4 border-t border-zinc-200">
+                  <span className="text-xs font-semibold text-zinc-600">
+                    Xem chi tiết
                   </span>
-                  <span className="text-xs font-black text-gold transition group-hover:text-gold-light">
+                  <span className="text-orange-600 transition group-hover:translate-x-1">
                     →
                   </span>
                 </div>
@@ -73,31 +67,34 @@ export function StaircaseShowcase() {
           ))}
         </div>
 
-        <div className="mt-8 rounded-3xl border border-slate-200 bg-page p-6 shadow-sm">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="bg-gradient-to-br from-zinc-100 to-zinc-50 border border-zinc-200 rounded-2xl p-8 sm:p-10"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
             <div>
-              <div className="text-sm font-semibold text-text-main">
-                Chọn mẫu phù hợp công trình của bạn
-              </div>
-              <div className="mt-1 text-sm text-text-secondary">
+              <h3 className="text-xl sm:text-2xl font-bold text-zinc-950 mb-2">
+                Chọn mẫu phù hợp công trình bạn
+              </h3>
+              <p className="text-zinc-600">
                 TND Granite hỗ trợ tư vấn theo kích thước thực tế.
-              </div>
+              </p>
             </div>
             <a
               href="#contact"
               onClick={(e) => {
                 e.preventDefault();
-                document.getElementById("contact")?.scrollIntoView({
-                  behavior: "smooth",
-                  block: "start",
-                });
+                document.getElementById("contact")?.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
-              className="inline-flex items-center justify-center rounded-full border border-gold/35 bg-white px-6 py-3 text-sm font-semibold text-gold transition hover:bg-gold/5 hover:-translate-y-[1px]"
+              className="inline-flex items-center justify-center rounded-lg bg-orange-600 px-8 py-3 text-sm font-semibold text-white transition hover:bg-orange-700"
             >
               Nhận báo giá
             </a>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
