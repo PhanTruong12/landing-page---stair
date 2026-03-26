@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { CONTACT } from "../../constants/contact";
 import { HERO_IMAGE_URL } from "../../constants/staircases";
 import { Button } from "../ui/Button";
-import { SectionHeading } from "../ui/SectionHeading";
 import { trackCtaClick } from "../../lib/tracking/initTracking";
 
 function scrollToContact() {
@@ -14,166 +13,178 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative"
+      className="relative overflow-hidden"
       aria-label="Giới thiệu TND Granite"
     >
-      <div className="relative min-h-[78svh]">
+      <div className="relative min-h-screen bg-zinc-950 text-white">
+        {/* Background image with overlay */}
         <img
           src={HERO_IMAGE_URL}
           alt="Hình ảnh cầu thang đá granite cao cấp"
           loading="lazy"
           decoding="async"
-          className="absolute inset-0 h-full w-full object-cover opacity-35"
+          className="absolute inset-0 h-full w-full object-cover opacity-25"
         />
-        {/* White -> transparent overlay for bright readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/75 to-page" />
-        <div className="absolute inset-0 pointer-events-none bg-hero-glow" />
+        
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-zinc-900/85 to-zinc-950" />
+        
+        {/* Subtle accent glow */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-orange-600/20 rounded-full blur-3xl opacity-30 pointer-events-none" />
 
-        <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:flex-row lg:items-center lg:justify-between">
-          <div className="max-w-2xl">
+        <div className="relative mx-auto flex max-w-7xl flex-col gap-16 px-4 py-20 sm:px-6 sm:py-32 lg:flex-row lg:items-center">
+          {/* Left content */}
+          <div className="flex-1 max-w-2xl">
             <motion.div
-              initial={{ opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.35 }}
-              transition={{ duration: 0.55, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+              className="space-y-6"
             >
-              <SectionHeading
-                eyebrow="TND GRANITE"
-                title={
-                  <>
-                    Thi công cầu thang đá <span className="text-gold">cao cấp</span>{" "}
-                    tại <span className="text-gold">Đà Nẵng</span>
-                  </>
-                }
-                level={1}
-                subtitle="Granite bền bỉ, thẩm mỹ sang trọng. Chống trầy, chịu lực cao và đồng nhất màu sắc theo thiết kế."
-              />
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.35 }}
-              transition={{ duration: 0.55, delay: 0.08, ease: "easeOut" }}
-              className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center"
-            >
-              <Button
-                className="w-full px-6 py-3 sm:w-auto"
-                href="#contact"
-                onClick={(e) => {
-                  e.preventDefault();
-                  trackCtaClick("hero_price");
-                  scrollToContact();
-                }}
-              >
-                Nhận báo giá
-              </Button>
-              <Button
-                className="w-full px-6 py-3 sm:w-auto"
-                href={CONTACT.zaloUrl}
-                tone="emerald"
-              >
-                Chat Zalo
-              </Button>
-            </motion.div>
-
-            <motion.ul
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: 0.15 }}
-              className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2"
-            >
-              {[
-                "Chống trầy, chịu lực cao",
-                "Chống thấm, hạn chế ố màu",
-                "Dễ vệ sinh, giữ vẻ mới lâu",
-                "Tùy biến theo bản vẽ thi công",
-              ].map((item) => (
-                <li
-                  key={item}
-                  className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white/85 px-4 py-3 shadow-sm"
-                >
-                  <span className="mt-1 inline-block h-2.5 w-2.5 rounded-full bg-gold" />
-                  <span className="text-sm text-text-secondary">{item}</span>
-                </li>
-              ))}
-            </motion.ul>
-
-            <div className="mt-8 text-sm text-text-secondary">
-              <span className="font-semibold text-text-main">
-                Nhận báo giá nhanh trong 5 phút.
-              </span>{" "}
-              Tư vấn thiết kế, đo đạc và thi công trọn gói.
-            </div>
-          </div>
-
-          <div className="relative hidden w-[420px] max-w-full lg:block">
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.35 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="rounded-3xl border border-slate-200 bg-white/85 p-6 shadow-brand backdrop-blur"
-            >
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <div className="text-xs font-semibold tracking-wide text-text-secondary">
-                    Bảo hành & tiêu chuẩn
-                  </div>
-                  <div className="mt-1 text-xl font-bold text-text-main">
-                    Thi công chuẩn kỹ thuật
-                  </div>
-                </div>
-                <div className="rounded-2xl border border-slate-200 bg-white/70 px-3 py-2">
-                  <span className="block text-xs font-semibold text-text-secondary">
-                    Ưu tiên
-                  </span>
-                  <span className="block text-sm font-bold text-gold">
-                    Độ khít & đường ron
-                  </span>
-                </div>
+              {/* Eyebrow */}
+              <div className="inline-flex items-center gap-2 border border-orange-500/30 bg-orange-500/10 rounded-full px-4 py-2 text-xs font-semibold tracking-widest uppercase text-orange-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                Thi công Đà Nẵng
               </div>
 
-              <div className="mt-5 grid grid-cols-2 gap-4">
-                {[
-                  { k: "10-20 năm", v: "Tuổi thọ bền bỉ" },
-                  { k: "Đà Nẵng", v: "Thi công tại địa phương" },
-                  { k: "Chuẩn", v: "Đo - cắt - lắp đồng bộ" },
-                  { k: "Sạch", v: "Hoàn thiện gọn gàng" },
-                ].map((s) => (
-                  <div
-                    key={s.k}
-                    className="rounded-2xl border border-slate-200 bg-white/70 p-4"
-                  >
-                    <div className="text-sm font-black text-text-main">
-                      {s.k}
-                    </div>
-                    <div className="mt-1 text-xs text-text-secondary">{s.v}</div>
-                  </div>
-                ))}
-              </div>
+              {/* Main headline */}
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-tight text-balance">
+                Cầu thang đá <span className="text-orange-500">Granite</span> cao cấp
+              </h1>
 
-              <div className="mt-6 flex items-center justify-between gap-3">
-                <a
-                  href={CONTACT.phoneHref}
-                  className="text-sm font-semibold text-gold transition hover:text-gold-light"
-                >
-                  Gọi tư vấn
-                </a>
+              {/* Subheading */}
+              <p className="text-lg sm:text-xl text-zinc-300 leading-relaxed max-w-xl text-balance">
+                Bền bỉ, sang trọng, chống trầy. Thiết kế tùy biến, thi công chuẩn kỹ thuật, bảo hành dài hạn.
+              </p>
+
+              {/* CTA Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.15 }}
+                className="flex flex-col sm:flex-row gap-4 pt-4"
+              >
                 <Button
+                  className="px-8 py-4 text-base"
                   href="#contact"
                   onClick={(e) => {
                     e.preventDefault();
+                    trackCtaClick("hero_price");
                     scrollToContact();
                   }}
-                  className="px-5 py-2"
                 >
                   Nhận báo giá
                 </Button>
-              </div>
+                <Button
+                  className="px-8 py-4 text-base"
+                  href={CONTACT.zaloUrl}
+                  tone="emerald"
+                >
+                  Chat Zalo
+                </Button>
+              </motion.div>
+
+              {/* Feature list */}
+              <motion.ul
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.25 }}
+                className="pt-8 grid grid-cols-1 sm:grid-cols-2 gap-3"
+              >
+                {[
+                  "Chống trầy & chịu lực cao",
+                  "Chống thấm nước",
+                  "10-20 năm tuổi thọ",
+                  "Hoàn thiện gọn gàng",
+                ].map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-center gap-3 text-sm text-zinc-300"
+                  >
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-orange-500 flex-shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </motion.ul>
+
+              {/* Trust statement */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="pt-6 border-t border-zinc-700"
+              >
+                <p className="text-sm text-zinc-400">
+                  <span className="font-semibold text-white">Báo giá & tư vấn miễn phí</span> trong 24 giờ. Thi công trọn gói tại Đà Nẵng.
+                </p>
+              </motion.div>
             </motion.div>
           </div>
+
+          {/* Right side - Visual element */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
+            className="hidden lg:block flex-1"
+          >
+            <div className="relative">
+              {/* Card background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-600/20 to-orange-600/5 rounded-2xl blur-2xl" />
+              
+              {/* Card content */}
+              <div className="relative bg-zinc-900/60 border border-zinc-800 rounded-2xl p-8 backdrop-blur-sm">
+                <div className="space-y-6">
+                  <div>
+                    <div className="text-xs font-semibold tracking-widest uppercase text-zinc-500">
+                      Tiêu chuẩn thi công
+                    </div>
+                    <h3 className="text-2xl font-bold mt-2 text-white">
+                      Thi công chuẩn kỹ thuật
+                    </h3>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    {[
+                      { value: "10-20", label: "Năm bảo hành" },
+                      { value: "Đà Nẵng", label: "Thi công tại" },
+                      { value: "100%", label: "Độ khít" },
+                      { value: "24h", label: "Báo giá nhanh" },
+                    ].map((stat) => (
+                      <div
+                        key={stat.label}
+                        className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4"
+                      >
+                        <div className="text-lg font-bold text-orange-400">
+                          {stat.value}
+                        </div>
+                        <div className="text-xs text-zinc-400 mt-1">
+                          {stat.label}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="pt-4 border-t border-zinc-700">
+                    <a
+                      href={CONTACT.phoneHref}
+                      className="inline-flex items-center gap-2 text-orange-400 hover:text-orange-300 transition font-semibold"
+                    >
+                      Gọi tư vấn ngay
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
