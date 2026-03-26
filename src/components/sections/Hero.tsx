@@ -1,182 +1,212 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { CONTACT } from "../../constants/contact";
 import { HERO_IMAGE_URL } from "../../constants/staircases";
 import { Button } from "../ui/Button";
-import { SectionHeading } from "../ui/SectionHeading";
+import { scrollToId } from "../../lib/scroll";
+import {
+  DURATION_FAST,
+  EASE_OUT,
+  STAGGER_CHILD,
+  TRUST_STAGGER,
+} from "../motion/transition";
 import { trackCtaClick } from "../../lib/tracking/initTracking";
 
-function scrollToContact() {
-  const el = document.getElementById("contact");
-  el?.scrollIntoView({ behavior: "smooth", block: "start" });
+function scrollToContact(reducedMotion: boolean) {
+  scrollToId("contact", reducedMotion);
 }
 
+function scrollToCalculator(reducedMotion: boolean) {
+  scrollToId("tinh-gia-cau-thang", reducedMotion);
+}
+
+const TRUST_ITEMS = [
+  "Đo đạc miễn phí tại Đà Nẵng",
+  "100+ công trình đá nung kết & granite",
+  "Báo giá thi công đá cầu thang minh bạch",
+] as const;
+
 export function Hero() {
+  const reduce = useReducedMotion();
+
+  const itemFade = {
+    hidden: { opacity: reduce ? 1 : 0, y: reduce ? 0 : 14 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: reduce ? 0 : DURATION_FAST, ease: EASE_OUT },
+    },
+  };
+
+  const gridContainer = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: reduce ? 0 : STAGGER_CHILD,
+        delayChildren: reduce ? 0 : 0.08,
+      },
+    },
+  };
+
+  const innerStagger = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: reduce ? 0 : STAGGER_CHILD,
+        delayChildren: reduce ? 0 : 0.05,
+      },
+    },
+  };
+
+  const trustList = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: reduce ? 0 : TRUST_STAGGER,
+      },
+    },
+  };
+
+  const trustItem = {
+    hidden: { opacity: reduce ? 1 : 0, y: reduce ? 0 : 6 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: reduce ? 0 : DURATION_FAST, ease: EASE_OUT },
+    },
+  };
+
   return (
     <section
       id="top"
-      className="relative"
-      aria-label="Giới thiệu TND Granite"
+      className="relative isolate min-h-[min(90vh,900px)] overflow-hidden bg-marble"
+      aria-labelledby="hero-heading"
     >
-      <div className="relative min-h-[78svh]">
+      {/* Ảnh full-bleed — cinematic */}
+      <div className="absolute inset-0">
         <img
           src={HERO_IMAGE_URL}
-          alt="Hình ảnh cầu thang đá granite cao cấp"
-          loading="lazy"
+          alt="Cầu thang đá nung kết cao cấp — thi công tại Đà Nẵng"
+          width={1920}
+          height={1080}
+          loading="eager"
           decoding="async"
-          className="absolute inset-0 h-full w-full object-cover opacity-35"
+          fetchPriority="high"
+          className="h-full w-full object-cover object-center"
         />
-        {/* White -> transparent overlay for bright readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/75 to-page" />
-        <div className="absolute inset-0 pointer-events-none bg-hero-glow" />
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-marble/85 via-marble-muted/35 to-marble/70"
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-marble/70 via-transparent to-marble/25"
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 bg-grid-subtle opacity-[0.4]"
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 bg-[radial-gradient(60%_60%_at_20%_10%,rgba(37,99,235,0.20)_0%,transparent_55%)] opacity-100"
+          aria-hidden
+        />
+      </div>
 
-        <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:flex-row lg:items-center lg:justify-between">
-          <div className="max-w-2xl">
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.35 }}
-              transition={{ duration: 0.55, ease: "easeOut" }}
+      {/* Nội dung — đáy khung, chữ sáng */}
+      <div className="relative z-[1] mx-auto flex min-h-[min(90vh,900px)] max-w-7xl flex-col justify-end px-4 pb-12 pt-24 sm:px-6 sm:pb-14 sm:pt-28 lg:px-8 lg:pb-16 lg:pt-32">
+        <motion.div
+          variants={gridContainer}
+          initial="hidden"
+          animate="visible"
+          className="max-w-4xl rounded-card border border-charcoal/15 bg-marble-card/78 p-6 shadow-elevated ring-1 ring-charcoal/[0.05] backdrop-blur-xl sm:p-8 lg:p-10"
+        >
+          <motion.div variants={innerStagger} initial="hidden" animate="visible">
+            <motion.p
+              variants={itemFade}
+              className="font-display text-[11px] font-semibold uppercase tracking-[0.28em] text-gold-deep"
             >
-              <SectionHeading
-                eyebrow="TND GRANITE"
-                title={
-                  <>
-                    Thi công cầu thang đá <span className="text-gold">cao cấp</span>{" "}
-                    tại <span className="text-gold">Đà Nẵng</span>
-                  </>
-                }
-                level={1}
-                subtitle="Granite bền bỉ, thẩm mỹ sang trọng. Chống trầy, chịu lực cao và đồng nhất màu sắc theo thiết kế."
-              />
+              Đá nung kết · Đà Nẵng
+            </motion.p>
+            <div className="mt-4 h-px w-16 bg-gold/15" aria-hidden />
+            <motion.div variants={itemFade}>
+              <h1
+                id="hero-heading"
+                className="font-display mt-4 text-display font-bold text-balance text-charcoal"
+              >
+                Thi Công Cầu Thang Đá Nung Kết Cao Cấp - Báo Giá Trọn Gói 2026
+              </h1>
             </motion.div>
+            <motion.p
+              variants={itemFade}
+              className="mt-5 max-w-2xl text-lg leading-[1.65] text-charcoal-soft sm:text-xl"
+            >
+              Thi công chuyên nghiệp{" "}
+              <span className="font-semibold text-charcoal">đá nung kết ốp cầu thang</span>{" "}
+              — đo đạc tận nơi, dự toán rõ ràng, bảo hành theo hợp đồng.
+            </motion.p>
+            <motion.p
+              variants={itemFade}
+              className="mt-4 max-w-2xl text-base leading-[1.65] text-text-secondary"
+            >
+              Mẫu cầu thang đá đẹp &amp; báo giá thi công đá cầu thang trọn gói — tư
+              vấn trong ngày.
+            </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.35 }}
-              transition={{ duration: 0.55, delay: 0.08, ease: "easeOut" }}
-              className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center"
+              variants={itemFade}
+              className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center"
             >
               <Button
-                className="w-full px-6 py-3 sm:w-auto"
+                className="w-full min-w-[180px] rounded-card px-8 py-3.5 sm:w-auto"
                 href="#contact"
+                tone="orange"
                 onClick={(e) => {
                   e.preventDefault();
                   trackCtaClick("hero_price");
-                  scrollToContact();
+                  scrollToContact(reduce ?? false);
                 }}
               >
-                Nhận báo giá
+                Nhận báo giá miễn phí
               </Button>
               <Button
-                className="w-full px-6 py-3 sm:w-auto"
+                className="w-full min-w-[180px] rounded-card px-8 py-3.5 sm:w-auto"
                 href={CONTACT.zaloUrl}
                 tone="emerald"
+                variant="outline"
               >
                 Chat Zalo
               </Button>
             </motion.div>
 
             <motion.ul
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: 0.15 }}
-              className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2"
+              variants={trustList}
+              initial="hidden"
+              animate="visible"
+              className="mt-10 flex flex-wrap gap-2"
             >
-              {[
-                "Chống trầy, chịu lực cao",
-                "Chống thấm, hạn chế ố màu",
-                "Dễ vệ sinh, giữ vẻ mới lâu",
-                "Tùy biến theo bản vẽ thi công",
-              ].map((item) => (
-                <li
-                  key={item}
-                  className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white/85 px-4 py-3 shadow-sm"
-                >
-                  <span className="mt-1 inline-block h-2.5 w-2.5 rounded-full bg-gold" />
-                  <span className="text-sm text-text-secondary">{item}</span>
-                </li>
+              {TRUST_ITEMS.map((label) => (
+                <motion.li key={label} variants={trustItem}>
+                  <span className="inline-flex items-center rounded-full border border-charcoal/15 bg-marble-card/50 px-3 py-1.5 text-xs font-medium leading-snug text-charcoal-soft backdrop-blur-sm">
+                    {label}
+                  </span>
+                </motion.li>
               ))}
             </motion.ul>
 
-            <div className="mt-8 text-sm text-text-secondary">
-              <span className="font-semibold text-text-main">
-                Nhận báo giá nhanh trong 5 phút.
-              </span>{" "}
-              Tư vấn thiết kế, đo đạc và thi công trọn gói.
-            </div>
-          </div>
-
-          <div className="relative hidden w-[420px] max-w-full lg:block">
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.35 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="rounded-3xl border border-slate-200 bg-white/85 p-6 shadow-brand backdrop-blur"
-            >
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <div className="text-xs font-semibold tracking-wide text-text-secondary">
-                    Bảo hành & tiêu chuẩn
-                  </div>
-                  <div className="mt-1 text-xl font-bold text-text-main">
-                    Thi công chuẩn kỹ thuật
-                  </div>
-                </div>
-                <div className="rounded-2xl border border-slate-200 bg-white/70 px-3 py-2">
-                  <span className="block text-xs font-semibold text-text-secondary">
-                    Ưu tiên
-                  </span>
-                  <span className="block text-sm font-bold text-gold">
-                    Độ khít & đường ron
-                  </span>
-                </div>
-              </div>
-
-              <div className="mt-5 grid grid-cols-2 gap-4">
-                {[
-                  { k: "10-20 năm", v: "Tuổi thọ bền bỉ" },
-                  { k: "Đà Nẵng", v: "Thi công tại địa phương" },
-                  { k: "Chuẩn", v: "Đo - cắt - lắp đồng bộ" },
-                  { k: "Sạch", v: "Hoàn thiện gọn gàng" },
-                ].map((s) => (
-                  <div
-                    key={s.k}
-                    className="rounded-2xl border border-slate-200 bg-white/70 p-4"
-                  >
-                    <div className="text-sm font-black text-text-main">
-                      {s.k}
-                    </div>
-                    <div className="mt-1 text-xs text-text-secondary">{s.v}</div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-6 flex items-center justify-between gap-3">
-                <a
-                  href={CONTACT.phoneHref}
-                  className="text-sm font-semibold text-gold transition hover:text-gold-light"
-                >
-                  Gọi tư vấn
-                </a>
-                <Button
-                  href="#contact"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToContact();
-                  }}
-                  className="px-5 py-2"
-                >
-                  Nhận báo giá
-                </Button>
-              </div>
-            </motion.div>
-          </div>
-        </div>
+            <motion.p variants={itemFade} className="mt-8 text-sm text-text-secondary">
+              <button
+                type="button"
+                className="font-semibold text-gold-deep underline decoration-gold/40 underline-offset-[5px] transition duration-200 ease-out hover:text-gold"
+                onClick={() => {
+                  trackCtaClick("hero_calc");
+                  scrollToCalculator(reduce ?? false);
+                }}
+              >
+                Dự toán tự động theo kích thước cầu thang →
+              </button>
+            </motion.p>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
 }
-

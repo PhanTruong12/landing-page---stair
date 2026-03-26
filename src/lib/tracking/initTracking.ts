@@ -130,7 +130,7 @@ export function trackLead(payload: LeadPayload) {
   // GA4
   if (ga4MeasurementId && window.gtag) {
     window.gtag("event", "generate_lead", {
-      service_need: payload.serviceNeed || "unknown",
+      has_construction_address: Boolean(payload.hasConstructionAddress),
       source: payload.source || "unknown",
       ...utm,
     });
@@ -139,7 +139,7 @@ export function trackLead(payload: LeadPayload) {
   // Facebook Pixel
   if (fbPixelId && window.fbq) {
     window.fbq("track", "Lead", {
-      service_need: payload.serviceNeed || "unknown",
+      has_construction_address: Boolean(payload.hasConstructionAddress),
       source: payload.source || "unknown",
       ...utm,
     });
@@ -149,7 +149,7 @@ export function trackLead(payload: LeadPayload) {
   if (tiktokPixelId && window.ttq) {
     try {
       window.ttq("track", "Lead", {
-        service_need: payload.serviceNeed || "unknown",
+        has_construction_address: Boolean(payload.hasConstructionAddress),
       });
     } catch {
       // ignore

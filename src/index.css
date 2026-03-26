@@ -7,12 +7,55 @@
     scroll-behavior: smooth;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
   body {
-    @apply bg-page text-text-main antialiased;
+    @apply bg-page font-sans text-[17px] leading-[1.6] text-text-main antialiased;
+  }
+
+  ::selection {
+    @apply bg-gold/20;
+    color: theme("colors.charcoal.DEFAULT");
   }
 
   section {
-    scroll-margin-top: 88px;
+    scroll-margin-top: 104px;
+  }
+}
+
+@layer utilities {
+  /* Lưới chấm nhẹ — tạo chiều sâu giống hero, không cần ảnh */
+  .bg-grid-subtle {
+    background-image: radial-gradient(
+      rgba(37, 99, 235, 0.07) 1px,
+      transparent 1px
+    );
+    background-size: 22px 22px;
+  }
+
+  /* Surfaces “glass” — dùng cho các panel form/bảng để đồng bộ giao diện. */
+  .glass-panel {
+    border-radius: 16px;
+    border: 1px solid rgba(44, 44, 44, 0.15);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow:
+      0 12px 40px -8px rgba(44, 44, 44, 0.12),
+      0 4px 16px -4px rgba(44, 44, 44, 0.06);
+  }
+
+  .glass-panel-soft {
+    border-radius: 16px;
+    border: 1px solid rgba(44, 44, 44, 0.1);
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 2px 8px rgba(44, 44, 44, 0.05);
   }
 }
 

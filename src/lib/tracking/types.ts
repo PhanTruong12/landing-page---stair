@@ -1,6 +1,6 @@
 export type LeadPayload = {
-  serviceNeed?: string;
-  // Do not include PII (phone/name) in events.
+  /** Có nhập địa chỉ thi công — không gửi nội dung địa chỉ lên pixel (tránh PII). */
+  hasConstructionAddress?: boolean;
   source?: "zalo_redirect" | "unknown";
 };
 
