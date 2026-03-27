@@ -31,6 +31,7 @@ export function Button({
   rel?: string;
 }) {
   const base =
+<<<<<<< HEAD
     "inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold transition-[transform,box-shadow] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 hover:scale-[1.03] active:scale-[0.98] motion-reduce:transform-none motion-reduce:hover:scale-100 motion-reduce:active:scale-100";
 
   const primaryOrange =
@@ -47,6 +48,18 @@ export function Button({
 
   const secondary =
     "border border-charcoal/15 bg-white text-gold shadow-soft hover:border-gold/30 hover:bg-gold/[0.04] hover:shadow-md focus-visible:ring-gold/35 focus-visible:ring-offset-page";
+=======
+    "inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950";
+
+  const primaryOrange =
+    "bg-orange-600 text-white shadow-lg shadow-orange-600/20 hover:bg-orange-700 hover:-translate-y-[1px] active:translate-y-0";
+
+  const primaryEmerald =
+    "bg-emerald-600 text-white shadow-lg shadow-emerald-600/20 hover:bg-emerald-700 hover:-translate-y-[1px] active:translate-y-0";
+
+  const secondary =
+    "border border-orange-500/30 bg-orange-500/10 text-orange-400 hover:bg-orange-500/20 hover:-translate-y-[1px] active:translate-y-0";
+>>>>>>> 68b71f7cc74685d2b58e7e08030f606e24f2e63c
 
   const outlineEmerald =
     "border-2 border-accent-emerald bg-transparent text-accent-emerald shadow-none hover:bg-emerald-50 hover:text-emerald-800 hover:shadow-[0_8px_28px_-6px_rgba(6,182,212,0.22)] focus-visible:ring-accent-emerald/40 focus-visible:ring-offset-page";

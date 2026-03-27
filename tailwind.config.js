@@ -34,6 +34,7 @@ export default {
         ],
       },
       colors: {
+<<<<<<< HEAD
         gold: {
           DEFAULT: "#2563EB",
           light: "#60A5FA",
@@ -53,6 +54,13 @@ export default {
           DEFAULT: "#0B1220",
           soft: "#111B2E",
           muted: "#1B243B",
+=======
+        // Premium dark palette
+        gold: {
+          DEFAULT: "#EA580C",
+          light: "#F07A3D",
+          deep: "#D64300",
+>>>>>>> 68b71f7cc74685d2b58e7e08030f606e24f2e63c
         },
         page: {
           DEFAULT: "#EEF2FF",
@@ -62,13 +70,33 @@ export default {
           secondary: "#475569",
         },
         accent: {
+<<<<<<< HEAD
           bronze: "#1D4ED8",
           bronzeDark: "#1E3A8A",
           emerald: "#06B6D4",
           orange: "#1D4ED8",
+=======
+          orange: "#EA580C",
+          emerald: "#10B981",
+>>>>>>> 68b71f7cc74685d2b58e7e08030f606e24f2e63c
+        },
+        zinc: {
+          50: "#FAFAFA",
+          100: "#F4F4F5",
+          200: "#E4E4E7",
+          300: "#D4D4D8",
+          400: "#A1A1A6",
+          500: "#71717A",
+          600: "#52525B",
+          700: "#3F3F46",
+          800: "#27272A",
+          850: "#1F1F23",
+          900: "#18181B",
+          950: "#09090B",
         },
       },
       boxShadow: {
+<<<<<<< HEAD
         brand:
           "0 1px 2px rgba(18, 17, 16, 0.05), 0 12px 40px rgba(18, 17, 16, 0.06)",
         accent: "0 16px 40px -8px rgba(18, 17, 16, 0.35)",
@@ -96,6 +124,14 @@ export default {
           "radial-gradient(ellipse 80% 50% at 0% 0%, rgba(6,182,212,0.08) 0%, transparent 50%), linear-gradient(145deg, #FFFFFF 0%, #E0E7FF 48%, #F1F5F9 100%)",
         "section-lead":
           "radial-gradient(ellipse 75% 60% at 50% 110%, rgba(37,99,235,0.10) 0%, transparent 55%), linear-gradient(185deg, #FFFFFF 0%, #E0E7FF 55%, #F1F5F9 100%)",
+=======
+        brand: "0 1px 2px rgba(31, 41, 55, 0.06), 0 12px 30px rgba(31, 41, 55, 0.08)",
+        accent: "0 14px 40px rgba(234, 88, 12, 0.25)",
+      },
+      backgroundImage: {
+        "hero-glow":
+          "radial-gradient(80% 70% at 50% 0%, rgba(234, 88, 12, 0.15) 0%, rgba(0,0,0,0) 55%)",
+>>>>>>> 68b71f7cc74685d2b58e7e08030f606e24f2e63c
       },
     },
   },

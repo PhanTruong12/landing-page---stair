@@ -66,7 +66,6 @@ export function LeadForm({ variant = "page" }: LeadFormProps) {
   const reduce = useReducedMotion();
   const sectionReveal = useSectionReveal();
   const isSidebar = variant === "sidebar";
-
   useEffect(() => {
     const onPageShow = (event: PageTransitionEvent) => {
       if (event.persisted) setSubmitting(false);
