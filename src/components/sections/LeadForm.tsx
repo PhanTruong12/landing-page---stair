@@ -5,12 +5,12 @@ import { SectionBackdrop } from "../layout/SectionBackdrop";
 import { Button } from "../ui/Button";
 import { useSectionReveal } from "../motion/useSectionReveal";
 import { DURATION, EASE_OUT } from "../motion/transition";
+import { getPublicEnv } from "../../lib/env-public";
 import { trackLead } from "../../lib/tracking/initTracking";
 
-function CheckIcon({ className }: { className?: string }) {
+function CheckIcon() {
   return (
     <svg
-      className={className}
       width="16"
       height="16"
       viewBox="0 0 24 24"
@@ -26,10 +26,9 @@ function CheckIcon({ className }: { className?: string }) {
   );
 }
 
-function ZaloIcon({ className }: { className?: string }) {
+function ZaloIcon() {
   return (
     <svg
-      className={className}
       width="20"
       height="20"
       viewBox="0 0 24 24"
@@ -47,14 +46,7 @@ function ZaloIcon({ className }: { className?: string }) {
   );
 }
 
-const inputBase =
-  "w-full h-12 rounded-card border border-charcoal/10 bg-marble-card/95 px-4 text-sm text-text-main outline-none transition-[border-color,box-shadow] duration-200 ease-out placeholder:text-text-secondary/70 focus:border-gold/60 focus:ring-2 focus:ring-gold/20 focus:shadow-[0_0_0_4px_rgba(37,99,235,0.16)]";
-
-const textareaBase =
-  "w-full resize-y rounded-card border border-charcoal/10 bg-marble-card/95 px-4 py-3 text-sm text-text-main outline-none transition-[border-color,box-shadow] duration-200 ease-out placeholder:text-text-secondary/70 focus:border-gold/60 focus:ring-2 focus:ring-gold/20 focus:shadow-[0_0_0_4px_rgba(37,99,235,0.16)]";
-
 export type LeadFormProps = {
-  /** Sidebar: nền tương phản, gọn — dùng trong layout 2 cột */
   variant?: "sidebar" | "page";
 };
 
@@ -62,10 +54,56 @@ export function LeadForm({ variant = "page" }: LeadFormProps) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [constructionAddress, setConstructionAddress] = useState("");
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const reduce = useReducedMotion();
   const sectionReveal = useSectionReveal();
   const isSidebar = variant === "sidebar";
+
+  async function submitLeadToExcel(source: string) {
+    const endpoint = getPublicEnv().sheetsWebAppUrl;
+    if (!endpoint) return;
+
+    const utm = (() => {
+      try {
+        const sp = new URLSearchParams(window.location.search);
+        return {
+          utm_source: sp.get("utm_source") || "",
+          utm_medium: sp.get("utm_medium") || "",
+          utm_campaign: sp.get("utm_campaign") || "",
+        };
+      } catch {
+        return { utm_source: "", utm_medium: "", utm_campaign: "" };
+      }
+    })();
+
+    const params = new URLSearchParams({
+      timestamp: new Date().toISOString(),
+      name: name.trim(),
+      phone: phone.trim(),
+      constructionAddress: constructionAddress.trim(),
+      source,
+      utm_source: utm.utm_source,
+      utm_medium: utm.utm_medium,
+      utm_campaign: utm.utm_campaign,
+    });
+
+    try {
+      await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type":
+            "application/x-www-form-urlencoded;charset=UTF-8",
+        },
+        body: params.toString(),
+        keepalive: true,
+        mode: "no-cors",
+      });
+    } catch {
+      // ignore network/CORS failures
+    }
+  }
+
   useEffect(() => {
     const onPageShow = (event: PageTransitionEvent) => {
       if (event.persisted) setSubmitting(false);
@@ -74,41 +112,26 @@ export function LeadForm({ variant = "page" }: LeadFormProps) {
     return () => window.removeEventListener("pageshow", onPageShow);
   }, []);
 
-  const cardClass = isSidebar
-    ? "rounded-card border border-charcoal/10 bg-marble-card/95 p-6 shadow-soft ring-1 ring-charcoal/[0.02] sm:p-7"
-    : "rounded-card border border-charcoal/10 bg-marble-card/95 p-6 shadow-elevated ring-1 ring-charcoal/[0.02] sm:p-8";
-
   const formInner = (
-    <>
+    <div className="lead-card">
       <motion.div
         initial={reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: reduce ? 0 : DURATION, ease: EASE_OUT }}
-        className={isSidebar ? "text-left" : "text-center"}
       >
-        <div className="flex flex-wrap items-center gap-2">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold-deep">
-            Báo giá nhanh
-          </p>
-          <div className="h-1 w-1 rounded-full bg-charcoal/20" aria-hidden />
-          <p className="rounded-full bg-gold/[0.08] px-3 py-1 text-[11px] font-semibold text-gold-deep">
-            Miễn phí khảo sát tại Đà Nẵng
+        <div className="lead-card__header">
+          <div className="eyebrow-row">
+            <span className="eyebrow">Báo giá nhanh</span>
+            <span className="pill">Miễn phí khảo sát tại Đà Nẵng</span>
+          </div>
+          <h2 id="lead-form-title" className="section-title">
+            Nhận báo giá thi công đá cầu thang
+          </h2>
+          <p className="section-desc">
+            Chỉ cần để lại thông tin. Chúng tôi sẽ phản hồi qua Zalo trong 5 phút.
           </p>
         </div>
-        <h2
-          id="lead-form-title"
-          className="mt-3 text-2xl font-bold leading-[1.18] text-balance text-charcoal sm:text-3xl"
-        >
-          {isSidebar
-            ? "Nhận báo giá thi công đá cầu thang"
-            : "Nhận báo giá thi công đá cầu thang"}
-        </h2>
-        <p className="mt-3 text-sm leading-[1.75] text-text-secondary">
-          {isSidebar
-            ? "Chỉ cần để lại thông tin. Chúng tôi sẽ phản hồi qua Zalo trong 5 phút."
-            : "Chỉ cần để lại thông tin. Chúng tôi sẽ phản hồi qua Zalo trong 5 phút."}
-        </p>
       </motion.div>
 
       <motion.div
@@ -120,7 +143,6 @@ export function LeadForm({ variant = "page" }: LeadFormProps) {
           ease: EASE_OUT,
           delay: reduce ? 0 : 0.05,
         }}
-        className={isSidebar ? `mt-6 ${cardClass}` : `mt-8 ${cardClass}`}
       >
         <form
           aria-label="Form báo giá nhanh"
@@ -130,62 +152,51 @@ export function LeadForm({ variant = "page" }: LeadFormProps) {
             setSubmitting(true);
             trackLead({
               hasConstructionAddress: constructionAddress.trim().length > 0,
-              source: "zalo_redirect",
+              source: "unknown",
             });
+
+            void submitLeadToExcel("form_submit");
+
             window.setTimeout(() => {
               setSubmitting(false);
-              window.location.href = CONTACT.zaloUrl;
             }, 450);
           }}
-          className="space-y-5"
         >
-          <div>
-            <label
-              htmlFor="name"
-              className="text-sm font-semibold text-charcoal"
-            >
-              Họ và tên
-            </label>
-            <input
-              id="name"
-              name="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Nguyễn Văn A"
-              required
-              className={`mt-2 ${inputBase}`}
-              autoComplete="name"
-            />
+          <div className="form-grid form-grid--2">
+            <div className="field">
+              <label htmlFor="name">Họ và tên</label>
+              <input
+                className="input"
+                id="name"
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Nguyễn Văn A"
+                required
+                autoComplete="name"
+              />
+            </div>
+
+            <div className="field">
+              <label htmlFor="phone">Số điện thoại</label>
+              <input
+                className="input"
+                id="phone"
+                name="phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="0901 234 567"
+                required
+                inputMode="tel"
+                autoComplete="tel"
+              />
+            </div>
           </div>
 
-          <div>
-            <label
-              htmlFor="phone"
-              className="text-sm font-semibold text-charcoal"
-            >
-              Số điện thoại
-            </label>
-            <input
-              id="phone"
-              name="phone"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="0901 234 567"
-              required
-              className={`mt-2 ${inputBase}`}
-              inputMode="tel"
-              autoComplete="tel"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="constructionAddress"
-              className="text-sm font-semibold text-charcoal"
-            >
-              Địa chỉ thi công
-            </label>
+          <div className="field lead-form__stack">
+            <label htmlFor="constructionAddress">Địa chỉ thi công</label>
             <textarea
+              className="textarea"
               id="constructionAddress"
               name="constructionAddress"
               value={constructionAddress}
@@ -193,56 +204,101 @@ export function LeadForm({ variant = "page" }: LeadFormProps) {
               placeholder="Khu vực / đường, quận — Đà Nẵng"
               required
               rows={2}
-              className={`mt-2 ${textareaBase}`}
               autoComplete="street-address"
             />
           </div>
 
-          <div className="pt-2">
-            <Button
-              className="w-full justify-center rounded-card px-6 py-4 text-base hover:scale-[1.02] bg-[linear-gradient(180deg,rgba(96,165,250,1)_0%,rgba(29,78,216,1)_100%)] hover:bg-[linear-gradient(180deg,rgba(96,165,250,0.95)_0%,rgba(30,64,175,1)_100%)]"
-              type="submit"
-            >
-              {submitting ? (
-                "Đang chuyển..."
-              ) : (
-                <>
-                  <span>Nhận báo giá trong 5 phút →</span>
-                  <span className="inline-flex items-center gap-2">
-                    <ZaloIcon className="h-5 w-5" />
-                    Zalo
+          <div className="lead-form__stack">
+            <label className="checkbox-field" htmlFor="privacy-consent">
+              <input
+                id="privacy-consent"
+                name="privacyConsent"
+                type="checkbox"
+                checked={privacyAccepted}
+                onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                required
+              />
+              <span>
+                Tôi đã đọc và đồng ý với{" "}
+                <a href="#privacy">chính sách bảo mật</a>.
+              </span>
+            </label>
+          </div>
+
+          <div className="lead-form__stack-lg">
+            <p className="lead-card__actions-title">Chọn cách nhận tư vấn</p>
+            <div className="lead-card__actions">
+              <Button type="submit" className="btn--block">
+                {submitting ? "Đang gửi..." : "Gửi form nhận báo giá →"}
+              </Button>
+
+              <Button
+                href={CONTACT.zaloUrl}
+                tone="emerald"
+                variant="outline"
+                className="btn--block"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (submitting) return;
+                  if (!privacyAccepted) {
+                    document.getElementById("privacy-consent")?.focus();
+                    return;
+                  }
+
+                  setSubmitting(true);
+                  trackLead({
+                    hasConstructionAddress:
+                      constructionAddress.trim().length > 0,
+                    source: "zalo_redirect",
+                  });
+                  void submitLeadToExcel("zalo_redirect");
+
+                  window.setTimeout(() => {
+                    setSubmitting(false);
+                    window.location.href = CONTACT.zaloUrl;
+                  }, 450);
+                }}
+              >
+                {submitting ? (
+                  "Đang chuyển Zalo..."
+                ) : (
+                  <span>
+                    <ZaloIcon />
+                    Chat Zalo
                   </span>
-                </>
-              )}
-            </Button>
-            <ul className="mt-4 space-y-2">
-              <li className="flex items-start gap-2 text-xs leading-[1.6] text-text-secondary">
-                <CheckIcon className="mt-0.5 h-4 w-4 text-charcoal/70" />
+                )}
+              </Button>
+            </div>
+
+            <ul className="lead-benefits">
+              <li>
+                <CheckIcon />
                 Miễn phí khảo sát tận nơi
               </li>
-              <li className="flex items-start gap-2 text-xs leading-[1.6] text-text-secondary">
-                <CheckIcon className="mt-0.5 h-4 w-4 text-charcoal/70" />
+              <li>
+                <CheckIcon />
                 Báo giá trong ngày
               </li>
-              <li className="flex items-start gap-2 text-xs leading-[1.6] text-text-secondary">
-                <CheckIcon className="mt-0.5 h-4 w-4 text-charcoal/70" />
+              <li>
+                <CheckIcon />
                 Thi công tại Đà Nẵng
               </li>
             </ul>
           </div>
         </form>
       </motion.div>
-    </>
+    </div>
   );
 
   if (isSidebar) {
     return (
       <section
         id="contact"
-        className="relative"
+        className="lead-section section section--muted"
         aria-labelledby="lead-form-title"
       >
-        {formInner}
+        <SectionBackdrop variant="lead" />
+        <div className="container section-inner">{formInner}</div>
       </section>
     );
   }
@@ -250,14 +306,12 @@ export function LeadForm({ variant = "page" }: LeadFormProps) {
   return (
     <motion.section
       id="contact"
-      className="relative isolate overflow-hidden border-t border-charcoal/10 py-16 sm:py-24"
+      className="lead-section section section--muted"
       aria-label="Nhận báo giá"
       {...sectionReveal}
     >
       <SectionBackdrop variant="lead" />
-      <div className="relative mx-auto max-w-xl px-4 sm:px-6">
-        {formInner}
-      </div>
+      <div className="container section-inner">{formInner}</div>
     </motion.section>
   );
 }

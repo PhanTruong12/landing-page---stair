@@ -1,10 +1,24 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { Container } from "../layout/Container";
+import { scrollToId } from "../../lib/scroll";
 
 const benefits = [
-  { title: "Bền vững 10–20 năm", desc: "Chất liệu granite cứng chắc, hạn chế xuống cấp theo thời gian." },
-  { title: "Chống nước & chống thấm", desc: "Giữ bề mặt ổn định, hạn chế ố màu do độ ẩm và nước." },
-  { title: "Dễ vệ sinh, giữ vẻ mới", desc: "Lau chùi nhanh, hạn chế bám bẩn và giữ thẩm mỹ lâu dài." },
-  { title: "Premium look, sang trọng", desc: "Vân đá tự nhiên tạo điểm nhấn đẳng cấp cho không gian." },
+  {
+    title: "Bền vững 10–20 năm",
+    desc: "Đá nung kết và granite cứng chắc, hạn chế xuống cấp theo thời gian.",
+  },
+  {
+    title: "Chống nước và chống thấm",
+    desc: "Giữ bề mặt ổn định, hạn chế ố màu do độ ẩm và nước.",
+  },
+  {
+    title: "Dễ vệ sinh, giữ vẻ mới",
+    desc: "Lau chùi nhanh, hạn chế bám bẩn và giữ thẩm mỹ lâu dài.",
+  },
+  {
+    title: "Sang trọng, đẳng cấp",
+    desc: "Vân đá tự nhiên tạo điểm nhấn cho không gian sống.",
+  },
 ];
 
 function Icon({ kind }: { kind: string }) {
@@ -45,45 +59,42 @@ function Icon({ kind }: { kind: string }) {
 }
 
 export function Benefits() {
+  const reduce = useReducedMotion();
+  const r = reduce ?? false;
+
   return (
-    <section id="benefits" className="bg-white py-20 sm:py-28" aria-label="Ưu điểm">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="mb-16">
-          <div className="inline-flex items-center gap-2 border border-orange-500/30 bg-orange-500/10 rounded-full px-4 py-2 text-xs font-semibold tracking-widest uppercase text-orange-600">
-            <span className="w-1 h-1 rounded-full bg-orange-500"></span>
-            Tại sao chọn granite
+    <section id="benefits" className="section section--surface" aria-label="Ưu điểm">
+      <Container>
+        <div className="section-header">
+          <div className="eyebrow-row">
+            <span className="eyebrow">Tại sao chọn đá cao cấp</span>
           </div>
-          <h2 className="mt-6 text-4xl sm:text-5xl font-bold text-zinc-950 text-balance leading-tight">
-            Bền bỉ, sang trọng, vượt thời gian
-          </h2>
-          <p className="mt-4 text-lg text-zinc-600 max-w-2xl">
-            Chất liệu cao cấp kết hợp thi công chuẩn kỹ thuật tạo nên những bậc thang hoàn hảo.
+          <h2 className="section-title">Bền bỉ, sang trọng, vượt thời gian</h2>
+          <p className="section-desc">
+            Chất liệu cao cấp kết hợp thi công chuẩn kỹ thuật tạo nên những bậc
+            thang hoàn hảo.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+        <div className="benefits-grid">
           {benefits.map((b, idx) => {
-            const kind = idx === 0 ? "durable" : idx === 1 ? "water" : idx === 2 ? "clean" : "premium";
+            const kind =
+              idx === 0 ? "durable" : idx === 1 ? "water" : idx === 2 ? "clean" : "premium";
             return (
               <motion.div
                 key={b.title}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: r ? 1 : 0, y: r ? 0 : 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.6 }}
-                className="group bg-zinc-50 border border-zinc-200 rounded-2xl p-8 transition hover:shadow-lg hover:border-orange-500/30"
+                transition={{ duration: r ? 0 : 0.6 }}
               >
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-orange-600 transition group-hover:bg-orange-200">
+                <div className="benefit-card">
+                  <div className="benefit-card__icon">
                     <Icon kind={kind} />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-bold text-zinc-950 mb-2">
-                      {b.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-zinc-600">
-                      {b.desc}
-                    </p>
+                  <div>
+                    <h3>{b.title}</h3>
+                    <p>{b.desc}</p>
                   </div>
                 </div>
               </motion.div>
@@ -92,35 +103,32 @@ export function Benefits() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: r ? 1 : 0, y: r ? 0 : 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="bg-gradient-to-br from-orange-600 to-orange-700 rounded-2xl p-8 sm:p-10 text-white"
+          transition={{ duration: r ? 0 : 0.6, delay: r ? 0 : 0.1 }}
         >
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-            <div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-2">
-                Đẳng cấp bắt đầu từ chi tiết
-              </h3>
-              <p className="text-orange-100">
-                TND Granite tư vấn chọn đá, phối màu, tối ưu độ khít theo kích thước thực tế.
+          <div className="benefits-cta">
+            <div className="benefits-cta__text">
+              <h3>Đẳng cấp bắt đầu từ chi tiết</h3>
+              <p>
+                TND Granite tư vấn chọn đá, phối màu, tối ưu độ khít theo kích
+                thước thực tế.
               </p>
             </div>
             <a
+              className="benefits-cta__link"
               href="#contact"
               onClick={(e) => {
                 e.preventDefault();
-                document.getElementById("contact")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                scrollToId("contact", r);
               }}
-              className="inline-flex items-center justify-center rounded-lg bg-white px-8 py-3 text-sm font-semibold text-orange-600 transition hover:bg-orange-50"
             >
               Nhận báo giá
             </a>
           </div>
         </motion.div>
-      </div>
+      </Container>
     </section>
   );
 }
-

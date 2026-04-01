@@ -1,7 +1,6 @@
-import { useCallback, useMemo, useReducer } from "react";
+import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
 import { motion } from "framer-motion";
 import { Container } from "../layout/Container";
-import { SectionBackdrop } from "../layout/SectionBackdrop";
 import { useSectionReveal } from "../motion/useSectionReveal";
 import { CalculatorForm } from "../calculator/CalculatorForm";
 import { ResultDisplay } from "../calculator/ResultDisplay";
@@ -63,8 +62,27 @@ export type StairPriceCalculatorProps = {
   embedded?: boolean;
 };
 
-export function StairPriceCalculator({ embedded = false }: StairPriceCalculatorProps) {
+function openFromHash() {
+  return (
+    typeof window !== "undefined" &&
+    window.location.hash === "#tinh-gia-cau-thang"
+  );
+}
+
+export function StairPriceCalculator({
+  embedded: _embedded = false,
+}: StairPriceCalculatorProps) {
   const [state, dispatch] = useReducer(calculatorReducer, initialCalcState);
+  const [expanded, setExpanded] = useState(openFromHash);
+
+  useEffect(() => {
+    const sync = () => {
+      if (openFromHash()) setExpanded(true);
+    };
+    sync();
+    window.addEventListener("hashchange", sync);
+    return () => window.removeEventListener("hashchange", sync);
+  }, []);
 
   const onStoneChange = useCallback((stone: StoneKind) => {
     dispatch({ type: "SET_STONE", stone });
@@ -105,51 +123,65 @@ export function StairPriceCalculator({ embedded = false }: StairPriceCalculatorP
   return (
     <motion.section
       id="tinh-gia-cau-thang"
-      className={`relative isolate overflow-hidden ${
-        embedded ? "border-t-0 py-0" : "border-t border-charcoal/10 py-16 sm:py-20 lg:py-24"
-      }`}
+      className="section section--calc-widget"
       aria-labelledby="calc-section-heading"
       {...sectionReveal}
     >
-      <SectionBackdrop variant="calc" />
-      <Container className={embedded ? "max-w-none px-0 sm:px-0 lg:px-0" : ""}>
-        <header className="max-w-3xl">
-          <div className="min-w-0">
-            <p className="font-display text-[11px] font-semibold uppercase tracking-[0.22em] text-gold-deep">
-              Công cụ trực tuyến
-            </p>
-            <div className="mt-2 h-px w-16 bg-gold/15" aria-hidden />
-            <h2
-              id="calc-section-heading"
-              className="font-display mt-1 text-heading font-bold text-balance text-charcoal"
-            >
-              Công Cụ Dự Toán Chi Phí Tự Động
+      <Container className="section-inner">
+        <div className="calc-widget">
+          <div className="calc-widget__intro">
+            <h2 id="calc-section-heading" className="calc-widget__title">
+              Dự toán nhanh
             </h2>
-            <p className="mt-4 text-base leading-[1.6] text-text-secondary">
-              Nhập kích thước hoặc kéo thanh trượt — xem{" "}
-              <span className="font-medium text-charcoal">
-                báo giá thi công đá cầu thang
-              </span>{" "}
-              tham khảo theo từng hạng mục (đá nung kết / granite). Dịch vụ{" "}
-              <span className="font-medium text-charcoal">
-                thi công cầu thang đá tại Đà Nẵng
-              </span>{" "}
-              trọn gói: đo đạc &amp; thi công.
+            <p className="calc-widget__lede">
+              Thêm phụ trên trang — nhập vài số đo để ước diện tích và giá tham
+              khảo. Báo giá chính xác khi khảo sát tại công trình.
             </p>
           </div>
-        </header>
 
-        <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start lg:gap-10 xl:gap-12">
-          <CalculatorForm
-            stone={state.stone}
-            draft={state.draft}
-            nungKetLocked={nungKetLocked}
-            hints={hints}
-            onStoneChange={onStoneChange}
-            onPatchDraft={onPatchDraft}
-            onReset={onReset}
-          />
-          <ResultDisplay quote={quote} stone={state.stone} />
+          {!expanded ? (
+            <div className="calc-teaser">
+              <p className="calc-teaser__hint">
+                Dành cho bạn muốn tham khảo trước khi liên hệ.
+              </p>
+              <button
+                type="button"
+                className="calc-teaser__open"
+                aria-expanded="false"
+                aria-controls="calc-widget-panel"
+                onClick={() => setExpanded(true)}
+              >
+                Mở ước giá
+              </button>
+            </div>
+          ) : (
+            <div id="calc-widget-panel" className="calc-widget__panel">
+              <div className="calc-widget__bar">
+                <button
+                  type="button"
+                  className="calc-widget__collapse"
+                  aria-expanded="true"
+                  aria-controls="calc-widget-panel"
+                  onClick={() => setExpanded(false)}
+                >
+                  Thu gọn
+                </button>
+              </div>
+              <div className="calc-layout calc-layout--widget">
+                <CalculatorForm
+                  stone={state.stone}
+                  draft={state.draft}
+                  nungKetLocked={nungKetLocked}
+                  hints={hints}
+                  onStoneChange={onStoneChange}
+                  onPatchDraft={onPatchDraft}
+                  onReset={onReset}
+                  compact
+                />
+                <ResultDisplay quote={quote} stone={state.stone} compact />
+              </div>
+            </div>
+          )}
         </div>
       </Container>
     </motion.section>

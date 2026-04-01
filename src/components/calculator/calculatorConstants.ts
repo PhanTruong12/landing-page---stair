@@ -21,5 +21,14 @@ export const STONE_OPTIONS: readonly {
   },
 ];
 
+/** Một dòng — dùng khi cần chuỗi đơn (export, meta). */
 export const FORMULA_NOTE =
   "Tổng diện tích = (dài×rộng mặt bậc)×(số bậc−số chiếu nghỉ) + (dài×rộng chiếu nghỉ)×số chiếu + (dài mặt bậc×cao cổ)×số bậc. Nếu số chiếu nghỉ ≥ số bậc, phần mặt bậc = 0.";
+
+/** Hiển thị dạng gạch đầu dòng — dễ đọc hơn một khối văn dài. */
+export const FORMULA_NOTE_LINES: readonly string[] = [
+  "Mặt bậc: (dài × rộng) × (số bậc − số chiếu nghỉ).",
+  "Chiếu nghỉ: (dài × rộng chiếu) × số chiếu.",
+  "Cổ bậc: (dài mặt bậc × cao cổ) × số bậc.",
+  "Nếu số chiếu nghỉ ≥ số bậc → phần mặt bậc = 0.",
+];

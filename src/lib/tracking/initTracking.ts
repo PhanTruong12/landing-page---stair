@@ -1,12 +1,12 @@
 import type { LeadPayload } from "./types";
+import { getPublicEnv } from "../env-public";
 
 function getEnv() {
-  const env = import.meta.env as unknown as Record<string, string | undefined>;
-
+  const env = getPublicEnv();
   return {
-    ga4MeasurementId: env.VITE_GA4_MEASUREMENT_ID,
-    fbPixelId: env.VITE_FACEBOOK_PIXEL_ID,
-    tiktokPixelId: env.VITE_TIKTOK_PIXEL_ID,
+    ga4MeasurementId: env.ga4MeasurementId,
+    fbPixelId: env.fbPixelId,
+    tiktokPixelId: env.tiktokPixelId,
   };
 }
 

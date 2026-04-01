@@ -11,6 +11,9 @@ export const CONTACT = {
   zaloUrl: `https://zalo.me/${phoneInternational}`,
   phoneDisplay,
   phoneHref: `tel:${phoneDigits}`,
+  /** Dòng địa chỉ ngắn — hiển thị footer; cập nhật số nhà/đường khi có. */
   addressLine: "Đà Nẵng",
+  /** Mô tả khu vực phục vụ (SEO, schema có thể dùng riêng). */
+  serviceAreaNote: "Thi công tại Đà Nẵng và khu vực lân cận",
 } as const;
 

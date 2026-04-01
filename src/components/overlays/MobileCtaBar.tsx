@@ -3,10 +3,9 @@ import { trackCtaClick } from "../../lib/tracking/initTracking";
 import { useReducedMotion } from "framer-motion";
 import { scrollToId } from "../../lib/scroll";
 
-function ZaloIcon({ className }: { className?: string }) {
+function ZaloIcon() {
   return (
     <svg
-      className={className}
       width="20"
       height="20"
       viewBox="0 0 24 24"
@@ -28,32 +27,31 @@ export function MobileCtaBar() {
   const reduce = useReducedMotion();
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-charcoal/10 bg-marble-card/80 shadow-float backdrop-blur-xl md:hidden">
-      <div className="mx-auto flex max-w-lg items-center justify-between gap-3 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+    <div className="mobile-cta-bar">
+      <div className="mobile-cta-bar__inner">
         <a
+          className="mobile-cta-bar__primary"
           href="#contact"
           onClick={(e) => {
             e.preventDefault();
             trackCtaClick("sticky_mobile_price");
             scrollToId("contact", reduce ?? false);
           }}
-          className="flex min-h-[48px] flex-1 items-center justify-center rounded-full bg-accent-bronze px-4 py-3 text-sm font-semibold text-white shadow-accent transition duration-200 hover:bg-accent-bronze/92 active:scale-[0.98]"
         >
           Nhận báo giá miễn phí
         </a>
         <a
+          className="mobile-cta-bar__zalo"
           href={CONTACT.zaloUrl}
           target="_blank"
           rel="noreferrer"
-          className="flex min-h-[48px] flex-1 items-center justify-center rounded-full bg-[linear-gradient(180deg,rgba(96,165,250,1)_0%,rgba(29,78,216,1)_100%)] px-4 py-3 text-sm font-semibold text-white shadow-accent transition duration-200 hover:bg-[linear-gradient(180deg,rgba(96,165,250,0.95)_0%,rgba(30,64,175,1)_100%)] hover:scale-[1.02] active:scale-[0.98]"
         >
-          <span className="inline-flex items-center gap-2">
-            <ZaloIcon className="h-5 w-5" />
-            Nhận báo giá trong 5 phút → Zalo
+          <span>
+            <ZaloIcon />
+            Zalo — 5 phút
           </span>
         </a>
       </div>
     </div>
   );
 }
-

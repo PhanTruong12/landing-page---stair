@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "../ui/Button";
 import { CONTACT } from "../../constants/contact";
 import { motion, useReducedMotion } from "framer-motion";
@@ -6,6 +6,7 @@ import { trackCtaClick } from "../../lib/tracking/initTracking";
 import { useScrolledPast } from "../../hooks/useScrolledPast";
 import { DURATION, EASE_OUT } from "../motion/transition";
 import { scrollToId } from "../../lib/scroll";
+import { cx } from "../../lib/cx";
 
 type NavItem = { id: string; label: string };
 
@@ -13,67 +14,102 @@ function scrollToSection(id: string, reducedMotion: boolean) {
   scrollToId(id, reducedMotion);
 }
 
+function MenuIcon({ open }: { open: boolean }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+      {open ? (
+        <path
+          d="M6 6L18 18M18 6L6 18"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+      ) : (
+        <>
+          <path
+            d="M4 7H20M4 12H20M4 17H20"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+        </>
+      )}
+    </svg>
+  );
+}
+
 export function Header() {
   const reduce = useReducedMotion();
+  const [menuOpen, setMenuOpen] = useState(false);
   const navItems: NavItem[] = useMemo(
     () => [
       { id: "gallery", label: "Mẫu thi công" },
-      { id: "process", label: "Quy trình" },
+      { id: "benefits", label: "Ưu điểm" },
       { id: "tinh-gia-cau-thang", label: "Dự toán" },
+      { id: "process", label: "Quy trình" },
+      { id: "trust-proof", label: "Uy tín" },
       { id: "contact", label: "Liên hệ" },
     ],
     [],
   );
 
-  const scrolled = useScrolledPast(12);
+  useScrolledPast(12);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
+  function goTo(id: string) {
+    scrollToSection(id, reduce ?? false);
+    setMenuOpen(false);
+  }
 
   return (
     <motion.header
+      className={cx("site-header", menuOpen && "site-header--open")}
       initial={{ y: -8, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: DURATION, ease: EASE_OUT }}
-      className="sticky top-0 z-50 border-b border-charcoal/10 bg-marble/85 px-3 py-3 backdrop-blur-xl sm:px-5"
     >
-      <div
-        className={`mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-card border px-3 py-2.5 shadow-soft transition-[background-color,box-shadow,border-color] duration-300 ease-out sm:gap-4 sm:px-5 sm:py-3 ${
-          scrolled
-            ? "border-charcoal/15 bg-marble-card/95 shadow-[0_8px_24px_-14px_rgba(44,44,44,0.2)]"
-            : "border-charcoal/10 bg-marble-card/78"
-        }`}
-      >
+      <div className="site-header__inner">
         <a
+          className="site-header__brand"
           href="#top"
-          className="group inline-flex min-w-0 items-center gap-2.5 sm:gap-3"
           onClick={(e) => {
             e.preventDefault();
-            scrollToSection("top", reduce ?? false);
+            goTo("top");
           }}
           aria-label="TND Granite - quay về đầu trang"
         >
-          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-card border border-gold/15 bg-gradient-to-br from-marble-card to-marble-muted shadow-soft ring-1 ring-charcoal/[0.06] transition group-hover:border-gold/25 sm:h-10 sm:w-10">
-            <span className="text-[14px] font-black tracking-tight text-gold sm:text-[15px]">
-              TND
-            </span>
-          </span>
-          <span className="min-w-0 leading-tight">
-            <span className="block truncate text-sm font-bold tracking-tight text-charcoal">
-              TND Granite
-            </span>
-            <span className="hidden text-xs text-text-secondary sm:block">
+          <span className="site-header__mark">TND</span>
+          <span className="site-header__brand-text">
+            <span className="site-header__brand-name">TND Granite</span>
+            <span className="site-header__brand-tag">
               Đá nung kết ốp cầu thang
             </span>
           </span>
         </a>
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Điều hướng">
+        <nav className="site-header__nav" aria-label="Điều hướng chính">
           {navItems.map((item) => (
             <a
               key={item.id}
               href={`#${item.id}`}
-              className="rounded-card px-3.5 py-2 text-sm font-medium text-text-secondary transition-colors duration-200 ease-out hover:bg-charcoal/[0.06] hover:text-charcoal"
               onClick={(e) => {
                 e.preventDefault();
-                scrollToSection(item.id, reduce ?? false);
+                goTo(item.id);
               }}
             >
               {item.label}
@@ -81,35 +117,80 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden lg:flex">
+        <div className="site-header__actions">
           <Button
             href="#contact"
-            className="px-6 py-2.5"
             onClick={(e) => {
               e.preventDefault();
               trackCtaClick("header_price");
-              scrollToSection("contact", reduce ?? false);
+              goTo("contact");
             }}
           >
             Nhận báo giá
           </Button>
+          <Button href={CONTACT.zaloUrl} tone="emerald" target="_blank" rel="noreferrer">
+            Zalo
+          </Button>
         </div>
 
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="site-header__actions-mobile">
           <Button
             href="#contact"
-            className="px-4 py-2"
             onClick={(e) => {
               e.preventDefault();
               trackCtaClick("mobile_price");
-              scrollToSection("contact", reduce ?? false);
+              goTo("contact");
             }}
           >
             Báo giá
           </Button>
-          <Button href={CONTACT.zaloUrl} className="px-4 py-2" tone="emerald">
-            Zalo
-          </Button>
+          <button
+            type="button"
+            className="site-header__menu-btn"
+            aria-expanded={menuOpen}
+            aria-controls="site-nav-drawer"
+            aria-label={menuOpen ? "Đóng menu" : "Mở menu"}
+            onClick={() => setMenuOpen((o) => !o)}
+          >
+            <MenuIcon open={menuOpen} />
+          </button>
+        </div>
+      </div>
+
+      <div
+        id="site-nav-drawer"
+        className="site-header__drawer"
+        aria-hidden={!menuOpen}
+      >
+        <button
+          type="button"
+          className="site-header__drawer-backdrop"
+          aria-label="Đóng menu"
+          onClick={() => setMenuOpen(false)}
+        />
+        <div className="site-header__drawer-panel">
+          <button
+            type="button"
+            className="site-header__drawer-close"
+            aria-label="Đóng"
+            onClick={() => setMenuOpen(false)}
+          >
+            ×
+          </button>
+          <nav className="site-header__drawer-nav" aria-label="Menu di động">
+            {navItems.map((item) => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  goTo(item.id);
+                }}
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
         </div>
       </div>
     </motion.header>

@@ -9,9 +9,6 @@ type OptionToggleProps = {
   meta: ReactNode;
 };
 
-/**
- * Một dòng tùy chọn (checkbox + mô tả + giá kèm).
- */
 export function OptionToggle({
   inputId,
   checked,
@@ -21,25 +18,17 @@ export function OptionToggle({
   meta,
 }: OptionToggleProps) {
   return (
-    <label
-      htmlFor={inputId}
-      className={`flex cursor-pointer items-start gap-3 rounded-xl border border-transparent px-1 py-1.5 transition ${
-        disabled ? "cursor-not-allowed opacity-90" : "hover:bg-white/80"
-      }`}
-    >
+    <label className="option-toggle" htmlFor={inputId}>
       <input
         id={inputId}
         type="checkbox"
         disabled={disabled}
         checked={checked}
         onChange={(e) => onCheckedChange(e.target.checked)}
-        className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300 text-gold focus:ring-gold/30 disabled:cursor-not-allowed"
       />
-      <span className="min-w-0">
-        <span className="block text-sm font-medium text-text-main">{title}</span>
-        <span className="mt-0.5 block text-xs leading-relaxed text-text-secondary">
-          {meta}
-        </span>
+      <span>
+        <span className="option-toggle__title">{title}</span>
+        <span className="option-toggle__meta">{meta}</span>
       </span>
     </label>
   );

@@ -1,18 +1,21 @@
 import type { ReactNode } from "react";
+import { cn } from "@/lib/cn";
 
 export function Container({
   children,
-  className = "",
+  className,
 }: {
   children: ReactNode;
   className?: string;
 }) {
   return (
     <div
-      className={`mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 ${className}`}
+      className={cn(
+        "mx-auto w-full max-w-[72rem] px-[clamp(1rem,4vw,2rem)]",
+        className,
+      )}
     >
       {children}
     </div>
   );
 }
-
