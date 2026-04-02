@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { cn } from "@/lib/cn";
+import { cn } from "@/lib/utils";
 
 export function Container({
   children,
@@ -11,7 +11,7 @@ export function Container({
   return (
     <div
       className={cn(
-        "mx-auto w-full max-w-[72rem] px-[clamp(1rem,4vw,2rem)]",
+        "mx-auto w-full max-w-[var(--container-max)] px-[var(--container-pad)]",
         className,
       )}
     >

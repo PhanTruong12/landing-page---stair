@@ -1,10 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans, Geist } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "../styles/global.css";
 import { Providers } from "./providers";
-import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const sans = Plus_Jakarta_Sans({
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
+  variable: "--font-sans-loaded",
+});
 
 const siteOrigin =
   process.env.NEXT_PUBLIC_SITE_ORIGIN ?? "https://tndgranite.vn";
@@ -86,8 +89,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="vi" className={cn("font-sans", geist.variable)}>
-      <body className={geist.className}>
+    <html lang="vi" className={sans.variable}>
+      <body className={sans.className}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

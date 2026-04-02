@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { CONTACT } from "../../constants/contact";
+import { Container } from "../layout/Container";
 import { SectionBackdrop } from "../layout/SectionBackdrop";
 import { Button } from "../ui/Button";
 import { useSectionReveal } from "../motion/useSectionReveal";
 import { DURATION, EASE_OUT } from "../motion/transition";
-import { getPublicEnv } from "../../lib/env-public";
+import {
+  buildLeadSheetPayload,
+  postLeadToSheets,
+} from "../../lib/leadSubmit";
 import { trackLead } from "../../lib/tracking/initTracking";
 
 function CheckIcon() {
@@ -60,47 +64,22 @@ export function LeadForm({ variant = "page" }: LeadFormProps) {
   const sectionReveal = useSectionReveal();
   const isSidebar = variant === "sidebar";
 
-  async function submitLeadToExcel(source: string) {
-    const endpoint = getPublicEnv().sheetsWebAppUrl;
-    if (!endpoint) return;
-
-    const utm = (() => {
-      try {
-        const sp = new URLSearchParams(window.location.search);
-        return {
-          utm_source: sp.get("utm_source") || "",
-          utm_medium: sp.get("utm_medium") || "",
-          utm_campaign: sp.get("utm_campaign") || "",
-        };
-      } catch {
-        return { utm_source: "", utm_medium: "", utm_campaign: "" };
-      }
-    })();
-
-    const params = new URLSearchParams({
-      timestamp: new Date().toISOString(),
-      name: name.trim(),
-      phone: phone.trim(),
-      constructionAddress: constructionAddress.trim(),
+  async function submitLeadToExcel(source: string): Promise<void> {
+    const params = buildLeadSheetPayload({
+      name,
+      phone,
+      constructionAddress,
       source,
-      utm_source: utm.utm_source,
-      utm_medium: utm.utm_medium,
-      utm_campaign: utm.utm_campaign,
     });
 
-    try {
-      await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type":
-            "application/x-www-form-urlencoded;charset=UTF-8",
-        },
-        body: params.toString(),
-        keepalive: true,
-        mode: "no-cors",
-      });
-    } catch {
-      // ignore network/CORS failures
+    const result = await postLeadToSheets(params);
+    if (
+      process.env.NODE_ENV === "development" &&
+      result.reason === "no_endpoint"
+    ) {
+      console.warn(
+        "[LeadForm] Thiếu NEXT_PUBLIC_SHEETS_WEB_APP_URL — không gửi được lên Sheet.",
+      );
     }
   }
 
@@ -144,132 +123,141 @@ export function LeadForm({ variant = "page" }: LeadFormProps) {
           delay: reduce ? 0 : 0.05,
         }}
       >
-        <form
-          aria-label="Form báo giá nhanh"
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (submitting) return;
-            setSubmitting(true);
-            trackLead({
-              hasConstructionAddress: constructionAddress.trim().length > 0,
-              source: "unknown",
-            });
+        <div className="lead-card__split">
+          <form
+            className="lead-card__form"
+            aria-label="Form báo giá nhanh"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              if (submitting) return;
+              setSubmitting(true);
+              trackLead({
+                hasConstructionAddress: constructionAddress.trim().length > 0,
+                source: "form_submit",
+              });
+              try {
+                await submitLeadToExcel("form_submit");
+              } finally {
+                setSubmitting(false);
+              }
+            }}
+          >
+            <div className="form-grid form-grid--2">
+              <div className="field">
+                <label htmlFor="name">Họ và tên</label>
+                <input
+                  className="input"
+                  id="name"
+                  name="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Nguyễn Văn A"
+                  required
+                  autoComplete="name"
+                />
+              </div>
 
-            void submitLeadToExcel("form_submit");
+              <div className="field">
+                <label htmlFor="phone">Số điện thoại</label>
+                <input
+                  className="input"
+                  id="phone"
+                  name="phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="0901 234 567"
+                  required
+                  inputMode="tel"
+                  autoComplete="tel"
+                />
+              </div>
+            </div>
 
-            window.setTimeout(() => {
-              setSubmitting(false);
-            }, 450);
-          }}
-        >
-          <div className="form-grid form-grid--2">
-            <div className="field">
-              <label htmlFor="name">Họ và tên</label>
-              <input
-                className="input"
-                id="name"
-                name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Nguyễn Văn A"
+            <div className="field lead-form__stack">
+              <label htmlFor="constructionAddress">Địa chỉ thi công</label>
+              <textarea
+                className="textarea"
+                id="constructionAddress"
+                name="constructionAddress"
+                value={constructionAddress}
+                onChange={(e) => setConstructionAddress(e.target.value)}
+                placeholder="Khu vực / đường, quận — Đà Nẵng"
                 required
-                autoComplete="name"
+                rows={2}
+                autoComplete="street-address"
               />
             </div>
 
-            <div className="field">
-              <label htmlFor="phone">Số điện thoại</label>
-              <input
-                className="input"
-                id="phone"
-                name="phone"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="0901 234 567"
-                required
-                inputMode="tel"
-                autoComplete="tel"
-              />
+            <div className="lead-form__stack">
+              <label className="checkbox-field" htmlFor="privacy-consent">
+                <input
+                  id="privacy-consent"
+                  name="privacyConsent"
+                  type="checkbox"
+                  checked={privacyAccepted}
+                  onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                  required
+                />
+                <span>
+                  Tôi đã đọc và đồng ý với{" "}
+                  <a href="#privacy">chính sách bảo mật</a>.
+                </span>
+              </label>
             </div>
-          </div>
 
-          <div className="field lead-form__stack">
-            <label htmlFor="constructionAddress">Địa chỉ thi công</label>
-            <textarea
-              className="textarea"
-              id="constructionAddress"
-              name="constructionAddress"
-              value={constructionAddress}
-              onChange={(e) => setConstructionAddress(e.target.value)}
-              placeholder="Khu vực / đường, quận — Đà Nẵng"
-              required
-              rows={2}
-              autoComplete="street-address"
-            />
-          </div>
+            <div className="lead-form__stack-lg">
+              <p className="lead-card__actions-title">Chọn cách nhận tư vấn</p>
+              <div className="lead-card__actions">
+                <Button type="submit" className="btn--block">
+                  {submitting ? "Đang gửi..." : "Gửi form nhận báo giá →"}
+                </Button>
 
-          <div className="lead-form__stack">
-            <label className="checkbox-field" htmlFor="privacy-consent">
-              <input
-                id="privacy-consent"
-                name="privacyConsent"
-                type="checkbox"
-                checked={privacyAccepted}
-                onChange={(e) => setPrivacyAccepted(e.target.checked)}
-                required
-              />
-              <span>
-                Tôi đã đọc và đồng ý với{" "}
-                <a href="#privacy">chính sách bảo mật</a>.
-              </span>
-            </label>
-          </div>
+                <Button
+                  href={CONTACT.zaloUrl}
+                  tone="emerald"
+                  variant="outline"
+                  className="btn--block"
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    if (submitting) return;
+                    const form = e.currentTarget.closest("form");
+                    if (form && !form.checkValidity()) {
+                      form.reportValidity();
+                      return;
+                    }
 
-          <div className="lead-form__stack-lg">
-            <p className="lead-card__actions-title">Chọn cách nhận tư vấn</p>
-            <div className="lead-card__actions">
-              <Button type="submit" className="btn--block">
-                {submitting ? "Đang gửi..." : "Gửi form nhận báo giá →"}
-              </Button>
-
-              <Button
-                href={CONTACT.zaloUrl}
-                tone="emerald"
-                variant="outline"
-                className="btn--block"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (submitting) return;
-                  if (!privacyAccepted) {
-                    document.getElementById("privacy-consent")?.focus();
-                    return;
-                  }
-
-                  setSubmitting(true);
-                  trackLead({
-                    hasConstructionAddress:
-                      constructionAddress.trim().length > 0,
-                    source: "zalo_redirect",
-                  });
-                  void submitLeadToExcel("zalo_redirect");
-
-                  window.setTimeout(() => {
-                    setSubmitting(false);
+                    setSubmitting(true);
+                    trackLead({
+                      hasConstructionAddress:
+                        constructionAddress.trim().length > 0,
+                      source: "zalo_redirect",
+                    });
+                    try {
+                      await submitLeadToExcel("zalo_redirect");
+                    } finally {
+                      setSubmitting(false);
+                    }
                     window.location.href = CONTACT.zaloUrl;
-                  }, 450);
-                }}
-              >
-                {submitting ? (
-                  "Đang chuyển Zalo..."
-                ) : (
-                  <span>
-                    <ZaloIcon />
-                    Chat Zalo
-                  </span>
-                )}
-              </Button>
+                  }}
+                >
+                  {submitting ? (
+                    "Đang chuyển Zalo..."
+                  ) : (
+                    <span>
+                      <ZaloIcon />
+                      Chat Zalo
+                    </span>
+                  )}
+                </Button>
+              </div>
             </div>
+          </form>
 
+          <aside
+            className="lead-card__aside"
+            aria-label="Lợi ích khi liên hệ"
+          >
+            <p className="lead-card__aside-title">Kèm theo báo giá</p>
             <ul className="lead-benefits">
               <li>
                 <CheckIcon />
@@ -284,8 +272,8 @@ export function LeadForm({ variant = "page" }: LeadFormProps) {
                 Thi công tại Đà Nẵng
               </li>
             </ul>
-          </div>
-        </form>
+          </aside>
+        </div>
       </motion.div>
     </div>
   );
@@ -298,7 +286,7 @@ export function LeadForm({ variant = "page" }: LeadFormProps) {
         aria-labelledby="lead-form-title"
       >
         <SectionBackdrop variant="lead" />
-        <div className="container section-inner">{formInner}</div>
+        <Container className="section-inner">{formInner}</Container>
       </section>
     );
   }
@@ -311,7 +299,7 @@ export function LeadForm({ variant = "page" }: LeadFormProps) {
       {...sectionReveal}
     >
       <SectionBackdrop variant="lead" />
-      <div className="container section-inner">{formInner}</div>
+      <Container className="section-inner">{formInner}</Container>
     </motion.section>
   );
 }

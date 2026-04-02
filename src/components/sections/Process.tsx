@@ -23,9 +23,7 @@ const steps = [
   },
 ];
 
-export type ProcessProps = { embedded?: boolean };
-
-export function Process({ embedded: _embedded = false }: ProcessProps) {
+export function Process() {
   const reduce = useReducedMotion();
   const sectionReveal = useSectionReveal();
 

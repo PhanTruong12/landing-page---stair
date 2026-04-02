@@ -1,4 +1,3 @@
-import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 import { Hero } from "./components/sections/Hero";
 import { StaircaseShowcase } from "./components/sections/StaircaseShowcase";
@@ -13,37 +12,23 @@ import { Header } from "./components/layout/Header";
 import { Footer } from "./components/layout/Footer";
 import { FloatingZalo } from "./components/overlays/FloatingZalo";
 import { MobileCtaBar } from "./components/overlays/MobileCtaBar";
+import { FadeUp } from "./components/motion";
 
-function FadeUp({
-  children,
-  reduceMotion,
-  delayMs = 0,
-}: {
-  children: ReactNode;
-  reduceMotion: boolean;
-  delayMs?: number;
-}) {
-  const delaySec = delayMs / 1000;
-  return (
-    <motion.div
-      initial={
-        reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }
-      }
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{
-        duration: reduceMotion ? 0 : 0.6,
-        ease: [0.22, 1, 0.36, 1],
-        delay: reduceMotion ? 0 : delaySec,
-      }}
-    >
-      {children}
-    </motion.div>
-  );
-}
+type SectionItem = { key: string; delayMs: number; node: ReactNode };
+
+const SECTIONS: SectionItem[] = [
+  { key: "hero", delayMs: 0, node: <Hero /> },
+  { key: "lead", delayMs: 60, node: <LeadForm variant="sidebar" /> },
+  { key: "gallery", delayMs: 90, node: <StaircaseShowcase /> },
+  { key: "benefits", delayMs: 105, node: <Benefits /> },
+  { key: "calculator", delayMs: 120, node: <StairPriceCalculator /> },
+  { key: "process", delayMs: 150, node: <Process /> },
+  { key: "trust", delayMs: 165, node: <TrustProof /> },
+  { key: "final-cta", delayMs: 180, node: <FinalCta /> },
+  { key: "privacy", delayMs: 200, node: <PrivacyNotice /> },
+];
 
 export function App() {
-  const reduce = useReducedMotion();
   return (
     <div className="page-shell">
       <a href="#main-content" className="skip-link">
@@ -53,41 +38,11 @@ export function App() {
       <Header />
 
       <main id="main-content">
-        <FadeUp reduceMotion={reduce ?? false}>
-          <Hero />
-        </FadeUp>
-
-        <FadeUp reduceMotion={reduce ?? false} delayMs={60}>
-          <LeadForm variant="sidebar" />
-        </FadeUp>
-
-        <FadeUp reduceMotion={reduce ?? false} delayMs={90}>
-          <StaircaseShowcase embedded />
-        </FadeUp>
-
-        <FadeUp reduceMotion={reduce ?? false} delayMs={105}>
-          <Benefits />
-        </FadeUp>
-
-        <FadeUp reduceMotion={reduce ?? false} delayMs={120}>
-          <StairPriceCalculator embedded />
-        </FadeUp>
-
-        <FadeUp reduceMotion={reduce ?? false} delayMs={150}>
-          <Process embedded />
-        </FadeUp>
-
-        <FadeUp reduceMotion={reduce ?? false} delayMs={165}>
-          <TrustProof />
-        </FadeUp>
-
-        <FadeUp reduceMotion={reduce ?? false} delayMs={180}>
-          <FinalCta />
-        </FadeUp>
-
-        <FadeUp reduceMotion={reduce ?? false} delayMs={200}>
-          <PrivacyNotice />
-        </FadeUp>
+        {SECTIONS.map(({ key, delayMs, node }) => (
+          <FadeUp key={key} delayMs={delayMs}>
+            {node}
+          </FadeUp>
+        ))}
       </main>
 
       <Footer />

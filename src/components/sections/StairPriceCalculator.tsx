@@ -58,10 +58,6 @@ function calculatorReducer(state: CalcState, action: CalcAction): CalcState {
   }
 }
 
-export type StairPriceCalculatorProps = {
-  embedded?: boolean;
-};
-
 function openFromHash() {
   return (
     typeof window !== "undefined" &&
@@ -69,9 +65,7 @@ function openFromHash() {
   );
 }
 
-export function StairPriceCalculator({
-  embedded: _embedded = false,
-}: StairPriceCalculatorProps) {
+export function StairPriceCalculator() {
   const [state, dispatch] = useReducer(calculatorReducer, initialCalcState);
   const [expanded, setExpanded] = useState(openFromHash);
 

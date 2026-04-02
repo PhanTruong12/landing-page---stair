@@ -1,8 +1,19 @@
+# Dependencies
 node_modules
-dist
+
+# Next.js
 .next
 out
+.vercel
+
+# Build / bundlers
+dist
+build
 .vite
+.turbo
+
+# TypeScript
+*.tsbuildinfo
 
 # Logs
 npm-debug.log*
@@ -11,18 +22,24 @@ yarn-error.log*
 pnpm-debug.log*
 *.log
 
-# Local env files
+# Local env (giữ .env.example trong repo)
 .env
 .env.*
 !.env.example
 
-# OS / editor
-.DS_Store
-Thumbs.db
-.idea
-.vscode
+# Test / coverage
+coverage
+.nyc_output
 
 # Cache
 .cache
-coverage
+.eslintcache
+*.pem
 
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor (bỏ comment dòng .vscode nếu muốn commit cài đặt)
+.idea
+.vscode

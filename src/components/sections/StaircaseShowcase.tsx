@@ -1,17 +1,17 @@
 import { motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 import { STAIRCASE_DESIGNS } from "../../constants/staircases";
 import { Container } from "../layout/Container";
 import { SectionBackdrop } from "../layout/SectionBackdrop";
 import { useSectionReveal } from "../motion/useSectionReveal";
-import { DURATION, EASE_OUT } from "../motion/transition";
+import {
+  DURATION,
+  EASE_OUT,
+  STAGGER_CHILD,
+} from "../motion/transition";
 
-export type StaircaseShowcaseProps = {
-  embedded?: boolean;
-};
-
-export function StaircaseShowcase({
-  embedded: _embedded = false,
-}: StaircaseShowcaseProps) {
+export function StaircaseShowcase() {
   const reduce = useReducedMotion();
   const sectionReveal = useSectionReveal();
 
@@ -39,22 +39,49 @@ export function StaircaseShowcase({
         </div>
 
         <div className="gallery-grid">
-          {STAIRCASE_DESIGNS.map((design) => (
+          {STAIRCASE_DESIGNS.map((design, index) => (
             <motion.article
               key={design.title}
               className="gallery-card"
-              initial={reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+              initial={reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: reduce ? 0 : DURATION, ease: EASE_OUT }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{
+                duration: reduce ? 0 : DURATION,
+                ease: EASE_OUT,
+                delay: reduce ? 0 : index * STAGGER_CHILD,
+              }}
+              whileHover={
+                reduce
+                  ? undefined
+                  : {
+                      y: -6,
+                      transition: { duration: 0.22, ease: EASE_OUT },
+                    }
+              }
             >
               <div className="gallery-card__media">
-                <img
+                <Image
                   src={design.imageUrl}
                   alt={design.alt}
+                  fill
+                  sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 25vw"
+                  className="gallery-card__img"
                   loading="lazy"
                   decoding="async"
                 />
+                <div className="gallery-card__media-shine" aria-hidden />
+                <div className="gallery-card__media-gradient" aria-hidden />
+                <span className="gallery-card__index">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div className="gallery-card__media-hover">
+                  <p className="gallery-card__hover-title">{design.stoneName}</p>
+                  <span className="gallery-card__hover-cta">
+                    Phối cảnh thực tế
+                    <ArrowUpRight className="gallery-card__hover-icon" aria-hidden />
+                  </span>
+                </div>
               </div>
 
               <div className="gallery-card__body">

@@ -6,7 +6,7 @@ import { trackCtaClick } from "../../lib/tracking/initTracking";
 import { useScrolledPast } from "../../hooks/useScrolledPast";
 import { DURATION, EASE_OUT } from "../motion/transition";
 import { scrollToId } from "../../lib/scroll";
-import { cx } from "../../lib/cx";
+import { cn } from "@/lib/utils";
 
 type NavItem = { id: string; label: string };
 
@@ -78,7 +78,7 @@ export function Header() {
 
   return (
     <motion.header
-      className={cx("site-header", menuOpen && "site-header--open")}
+      className={cn("site-header", menuOpen && "site-header--open")}
       initial={{ y: -8, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: DURATION, ease: EASE_OUT }}

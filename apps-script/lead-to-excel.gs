@@ -1,61 +1,96 @@
 /*
-  Google Apps Script (Web App) -> ghi dữ liệu form vào Google Sheets.
+  Google Apps Script (Web App) -> ghi lead vào Google Sheets.
+  Cột tiếng Việt, không UTM.
 
-  Cách dùng:
-  1) Tạo Google Sheet và copy SHEET_ID, SHEET_NAME dưới đây.
-  2) Trong Apps Script, tạo Web App (Deploy -> New deployment)
-     - Execute as: Me
-     - Who has access: Anyone
-  3) Lấy URL Web App và gán vào frontend env: NEXT_PUBLIC_SHEETS_WEB_APP_URL
+  1) SHEET_ID, SHEET_NAME
+  2) Deploy Web App: Execute as Me, Who has access: Anyone
+  3) NEXT_PUBLIC_SHEETS_WEB_APP_URL = URL /exec
 */
 
 const SHEET_ID = "PUT_YOUR_SHEET_ID_HERE";
 const SHEET_NAME = "Leads";
 
+function parseFormParams_(e) {
+  if (e && e.parameter && Object.keys(e.parameter).length > 0) {
+    return e.parameter;
+  }
+  var type = e && e.postData ? String(e.postData.type || "") : "";
+  var isForm =
+    type.indexOf("application/x-www-form-urlencoded") === 0 || type === "";
+  if (e && e.postData && e.postData.contents && isForm) {
+    var out = {};
+    String(e.postData.contents)
+      .split("&")
+      .forEach(function (pair) {
+        var i = pair.indexOf("=");
+        if (i < 0) return;
+        var k = decodeURIComponent(pair.slice(0, i).replace(/\+/g, " "));
+        var v = decodeURIComponent(pair.slice(i + 1).replace(/\+/g, " "));
+        out[k] = v;
+      });
+    return out;
+  }
+  return {};
+}
+
 function doGet() {
   return ContentService.createTextOutput(
-    JSON.stringify({ ok: true, message: "POST / doPost available" })
+    JSON.stringify({ ok: true, message: "POST / doPost" })
   ).setMimeType(ContentService.MimeType.JSON);
 }
 
 function ensureHeader_(sheet, headers) {
-  const firstRow = sheet.getRange(1, 1, 1, headers.length).getValues()[0];
-  const hasHeader = firstRow && firstRow.some((c) => String(c || "").trim().length > 0);
+  var firstRow = sheet.getRange(1, 1, 1, headers.length).getValues()[0];
+  var hasHeader =
+    firstRow && firstRow.some(function (c) {
+      return String(c || "").trim().length > 0;
+    });
   if (hasHeader) return;
   sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
 }
 
 function doPost(e) {
   try {
-    const params = e && e.parameter ? e.parameter : {};
+    if (!SHEET_ID || SHEET_ID === "PUT_YOUR_SHEET_ID_HERE") {
+      return ContentService.createTextOutput(
+        JSON.stringify({
+          ok: false,
+          error: "Chưa cấu hình SHEET_ID",
+        })
+      ).setMimeType(ContentService.MimeType.JSON);
+    }
 
-    const payload = {
+    var params = parseFormParams_(e);
+
+    var payload = {
       timestamp: params.timestamp || new Date().toISOString(),
       name: params.name || "",
       phone: params.phone || "",
       constructionAddress: params.constructionAddress || "",
       source: params.source || "",
-      utm_source: params.utm_source || "",
-      utm_medium: params.utm_medium || "",
-      utm_campaign: params.utm_campaign || "",
     };
 
-    const ss = SpreadsheetApp.openById(SHEET_ID);
-    const sheet =
-      ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
+    var ss = SpreadsheetApp.openById(SHEET_ID);
+    var sheet = ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
 
-    const headers = [
-      "Timestamp",
-      "Name",
-      "Phone",
-      "ConstructionAddress",
-      "Source",
-      "utm_source",
-      "utm_medium",
-      "utm_campaign",
+    var headers = [
+      "Thời gian",
+      "Họ và tên",
+      "Số điện thoại",
+      "Địa chỉ thi công",
+      "Nguồn",
+      "Dữ liệu gốc",
     ];
 
     ensureHeader_(sheet, headers);
+
+    var rawData = JSON.stringify({
+      timestamp: payload.timestamp,
+      name: payload.name,
+      phone: payload.phone,
+      constructionAddress: payload.constructionAddress,
+      source: payload.source,
+    });
 
     sheet.appendRow([
       payload.timestamp,
@@ -63,9 +98,7 @@ function doPost(e) {
       payload.phone,
       payload.constructionAddress,
       payload.source,
-      payload.utm_source,
-      payload.utm_medium,
-      payload.utm_campaign,
+      rawData,
     ]);
 
     return ContentService.createTextOutput(
@@ -77,4 +110,3 @@ function doPost(e) {
     ).setMimeType(ContentService.MimeType.JSON);
   }
 }
-
