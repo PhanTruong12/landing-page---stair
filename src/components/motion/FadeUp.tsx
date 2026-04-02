@@ -18,7 +18,12 @@ export function FadeUp({ children, delayMs = 0 }: FadeUpProps) {
     <motion.div
       initial={reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{
+        once: true,
+        // Giảm ngưỡng để section không bị kẹt opacity/y trên một số máy/level zoom
+        amount: 0.05,
+        margin: "0px 0px -80px 0px",
+      }}
       transition={{
         duration: reduce ? 0 : PAGE_SECTION_DURATION,
         ease: PAGE_SECTION_EASE,

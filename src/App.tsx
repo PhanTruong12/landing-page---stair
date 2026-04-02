@@ -18,14 +18,14 @@ type SectionItem = { key: string; delayMs: number; node: ReactNode };
 
 const SECTIONS: SectionItem[] = [
   { key: "hero", delayMs: 0, node: <Hero /> },
-  { key: "lead", delayMs: 60, node: <LeadForm variant="sidebar" /> },
   { key: "gallery", delayMs: 90, node: <StaircaseShowcase /> },
   { key: "benefits", delayMs: 105, node: <Benefits /> },
-  { key: "calculator", delayMs: 120, node: <StairPriceCalculator /> },
   { key: "process", delayMs: 150, node: <Process /> },
   { key: "trust", delayMs: 165, node: <TrustProof /> },
   { key: "final-cta", delayMs: 180, node: <FinalCta /> },
   { key: "privacy", delayMs: 200, node: <PrivacyNotice /> },
+  { key: "calculator", delayMs: 210, node: <StairPriceCalculator /> },
+  { key: "lead", delayMs: 220, node: <LeadForm variant="page" /> },
 ];
 
 export function App() {
