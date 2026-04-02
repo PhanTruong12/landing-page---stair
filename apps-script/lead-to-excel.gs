@@ -12,7 +12,12 @@ const SHEET_NAME = "Leads";
 
 function parseFormParams_(e) {
   if (e && e.parameter && Object.keys(e.parameter).length > 0) {
-    return e.parameter;
+    var trimmed = {};
+    Object.keys(e.parameter).forEach(function (k) {
+      var v = e.parameter[k];
+      trimmed[k] = v == null ? "" : String(v).trim();
+    });
+    return trimmed;
   }
   var type = e && e.postData ? String(e.postData.type || "") : "";
   var isForm =
@@ -26,7 +31,7 @@ function parseFormParams_(e) {
         if (i < 0) return;
         var k = decodeURIComponent(pair.slice(0, i).replace(/\+/g, " "));
         var v = decodeURIComponent(pair.slice(i + 1).replace(/\+/g, " "));
-        out[k] = v;
+        out[k] = v.trim();
       });
     return out;
   }

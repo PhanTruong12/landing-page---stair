@@ -65,7 +65,12 @@ var PROP_STAIRS_SETUP = "LEAD_SHEET_PREMIUM_V4";
 
 function parseFormParams_(e) {
   if (e && e.parameter && Object.keys(e.parameter).length > 0) {
-    return e.parameter;
+    var trimmed = {};
+    Object.keys(e.parameter).forEach(function (k) {
+      var v = e.parameter[k];
+      trimmed[k] = v == null ? "" : String(v).trim();
+    });
+    return trimmed;
   }
   var type = e && e.postData && e.postData.type ? String(e.postData.type) : "";
   var isForm =
