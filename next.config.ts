@@ -1,10 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /** Xuất static HTML — deploy giống bản Vite (CDN, S3, Pages…) */
-  output: "export",
+  /** Vercel: build chuẩn Next.js (`.next`). Không dùng `output: "export"` — tránh lỗi routes-manifest. */
   images: {
-    unoptimized: true,
+    formats: ["image/avif", "image/webp"],
   },
   reactStrictMode: true,
 };
