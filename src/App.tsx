@@ -23,9 +23,9 @@ const SECTIONS: SectionItem[] = [
   { key: "process", delayMs: 150, node: <Process /> },
   { key: "trust", delayMs: 165, node: <TrustProof /> },
   { key: "final-cta", delayMs: 180, node: <FinalCta /> },
-  { key: "privacy", delayMs: 200, node: <PrivacyNotice /> },
-  { key: "calculator", delayMs: 210, node: <StairPriceCalculator /> },
-  { key: "lead", delayMs: 220, node: <LeadForm variant="page" /> },
+  { key: "calculator", delayMs: 200, node: <StairPriceCalculator /> },
+  { key: "lead", delayMs: 210, node: <LeadForm variant="page" /> },
+  { key: "privacy", delayMs: 220, node: <PrivacyNotice /> },
 ];
 
 export function App() {
