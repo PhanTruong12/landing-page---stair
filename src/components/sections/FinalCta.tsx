@@ -10,7 +10,7 @@ export function FinalCta() {
   return (
     <section
       id="final-cta"
-      className="final-cta section section--dark"
+      className="final-cta section section--surface"
       aria-label="Kêu gọi hành động cuối"
     >
       <Container>

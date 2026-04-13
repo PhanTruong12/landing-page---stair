@@ -63,7 +63,7 @@ export function Benefits() {
   const r = reduce ?? false;
 
   return (
-    <section id="benefits" className="section section--surface" aria-label="Ưu điểm">
+    <section id="benefits" className="section section--dark" aria-label="Ưu điểm">
       <Container>
         <div className="section-header">
           <div className="eyebrow-row">

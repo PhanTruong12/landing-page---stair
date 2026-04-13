@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
-import { motion } from "framer-motion";
 import { Container } from "../layout/Container";
-import { useSectionReveal } from "../motion/useSectionReveal";
 import { CalculatorForm } from "../calculator/CalculatorForm";
 import { ResultDisplay } from "../calculator/ResultDisplay";
 import {
@@ -112,14 +110,12 @@ export function StairPriceCalculator() {
   }, [state.draft, parsedInputs, quote.trustedEstimate]);
 
   const nungKetLocked = state.stone === "nungKet";
-  const sectionReveal = useSectionReveal();
 
   return (
-    <motion.section
+    <section
       id="tinh-gia-cau-thang"
       className="section section--calc-widget"
       aria-labelledby="calc-section-heading"
-      {...sectionReveal}
     >
       <Container className="section-inner">
         <div className="calc-widget">
@@ -178,6 +174,6 @@ export function StairPriceCalculator() {
           )}
         </div>
       </Container>
-    </motion.section>
+    </section>
   );
 }

@@ -4,7 +4,6 @@ import { CONTACT } from "../../constants/contact";
 import { Container } from "../layout/Container";
 import { SectionBackdrop } from "../layout/SectionBackdrop";
 import { Button } from "../ui/Button";
-import { useSectionReveal } from "../motion/useSectionReveal";
 import { DURATION, EASE_OUT } from "../motion/transition";
 import {
   buildLeadSheetPayload,
@@ -61,7 +60,6 @@ export function LeadForm({ variant = "page" }: LeadFormProps) {
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const reduce = useReducedMotion();
-  const sectionReveal = useSectionReveal();
   const isSidebar = variant === "sidebar";
 
   async function submitLeadToExcel(source: string): Promise<void> {
@@ -282,7 +280,7 @@ export function LeadForm({ variant = "page" }: LeadFormProps) {
     return (
       <section
         id="contact"
-        className="lead-section section section--muted"
+        className="lead-section section section--surface"
         aria-labelledby="lead-form-title"
       >
         <SectionBackdrop variant="lead" />
@@ -292,14 +290,13 @@ export function LeadForm({ variant = "page" }: LeadFormProps) {
   }
 
   return (
-    <motion.section
+    <section
       id="contact"
-      className="lead-section section section--muted"
+      className="lead-section section section--surface"
       aria-label="Nhận báo giá"
-      {...sectionReveal}
     >
       <SectionBackdrop variant="lead" />
       <Container className="section-inner">{formInner}</Container>
-    </motion.section>
+    </section>
   );
 }

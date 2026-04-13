@@ -4,7 +4,6 @@ import { ArrowUpRight } from "lucide-react";
 import { STAIRCASE_DESIGNS } from "../../constants/staircases";
 import { Container } from "../layout/Container";
 import { SectionBackdrop } from "../layout/SectionBackdrop";
-import { useSectionReveal } from "../motion/useSectionReveal";
 import {
   DURATION,
   EASE_OUT,
@@ -13,14 +12,12 @@ import {
 
 export function StaircaseShowcase() {
   const reduce = useReducedMotion();
-  const sectionReveal = useSectionReveal();
 
   return (
-    <motion.section
+    <section
       id="gallery"
-      className="section section--muted"
+      className="section section--surface"
       aria-labelledby="gallery-heading"
-      {...sectionReveal}
     >
       <SectionBackdrop variant="gallery" />
       <Container className="section-inner">
@@ -103,6 +100,6 @@ export function StaircaseShowcase() {
           ))}
         </div>
       </Container>
-    </motion.section>
+    </section>
   );
 }

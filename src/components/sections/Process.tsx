@@ -1,7 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "../layout/Container";
 import { SectionBackdrop } from "../layout/SectionBackdrop";
-import { useSectionReveal } from "../motion/useSectionReveal";
 import { DURATION, EASE_OUT } from "../motion/transition";
 
 const steps = [
@@ -25,14 +24,12 @@ const steps = [
 
 export function Process() {
   const reduce = useReducedMotion();
-  const sectionReveal = useSectionReveal();
 
   return (
-    <motion.section
+    <section
       id="process"
-      className="section section--muted"
+      className="section section--surface"
       aria-labelledby="process-heading"
-      {...sectionReveal}
     >
       <SectionBackdrop variant="process" />
       <Container className="section-inner">
@@ -68,6 +65,6 @@ export function Process() {
           ))}
         </div>
       </Container>
-    </motion.section>
+    </section>
   );
 }

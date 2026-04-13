@@ -447,7 +447,7 @@ img {
 }
 
 .section--dark .section-desc {
-  color: #a89f94;
+  color: #d6cfc4;
 }
 
 .section-header {
@@ -1618,6 +1618,44 @@ img {
   background: var(--color-accent-hover);
 }
 
+/* Benefits trên nền tối: ghi đè màu kế thừa từ `.section--dark` (tránh chữ sáng trên thẻ trắng / gradient sáng) */
+.section--dark .benefit-card {
+  color: var(--color-ink);
+}
+
+.section--dark .benefit-card h3 {
+  color: var(--color-ink);
+}
+
+.section--dark .benefit-card p {
+  color: var(--color-ink-muted);
+}
+
+/* Khối CTA trên section tối: nổi khỏi nền — gradient, viền accent, bóng */
+.section--dark .benefits-cta {
+  background: linear-gradient(
+    155deg,
+    #2a2622 0%,
+    var(--color-dark-elevated) 42%,
+    #1a1815 100%
+  );
+  border: 1px solid rgba(253, 186, 116, 0.28);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 0 0 1px rgba(0, 0, 0, 0.35),
+    0 12px 36px rgba(0, 0, 0, 0.55),
+    0 0 48px rgba(194, 65, 12, 0.14);
+  color: #faf6f0;
+}
+
+.section--dark .benefits-cta__text h3 {
+  color: #faf6f0;
+}
+
+.section--dark .benefits-cta__text p {
+  color: #d6cfc4;
+}
+
 /* ——— Calculator ——— */
 .calc-layout {
   display: grid;
@@ -2443,9 +2481,31 @@ img {
   border-bottom-color: #fdba74;
 }
 
+.final-cta.section--surface .final-cta__point {
+  background: var(--color-page);
+  border: 1px solid var(--color-border);
+}
+
+.final-cta.section--surface .final-cta__point-k {
+  color: var(--color-accent);
+}
+
+.final-cta.section--surface .final-cta__point-v {
+  color: var(--color-ink-muted);
+}
+
+.final-cta.section--surface .final-cta__ghost {
+  color: var(--color-accent);
+  border-bottom-color: rgba(194, 65, 12, 0.35);
+}
+
+.final-cta.section--surface .final-cta__ghost:hover {
+  color: var(--color-ink);
+  border-bottom-color: var(--color-accent);
+}
+
 /* ——— Privacy ——— */
 .privacy-section {
-  padding-block: var(--space-8);
   border-top: 1px solid var(--color-border);
 }
 
@@ -2453,6 +2513,7 @@ img {
   margin: 0 0 var(--space-4);
   font-size: var(--text-xl);
   font-weight: 800;
+  color: var(--color-ink);
 }
 
 .privacy-section p {

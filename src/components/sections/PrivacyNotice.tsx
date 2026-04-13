@@ -4,7 +4,7 @@ export function PrivacyNotice() {
   return (
     <section
       id="privacy"
-      className="privacy-section"
+      className="privacy-section section section--surface"
       aria-labelledby="privacy-heading"
     >
       <Container>
